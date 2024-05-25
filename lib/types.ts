@@ -41,6 +41,7 @@ export interface ContractMetadata {
     judge: string
     closedAt: number
     compensation: number
+    recommendation: string
 }
 
 

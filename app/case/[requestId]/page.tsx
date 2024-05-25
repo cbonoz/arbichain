@@ -48,7 +48,6 @@ export default function ManageCase({ params }: { params: Params }) {
     const [statement, setStatement] = useState('')
     const [ruling, setRuling] = useState<Ruling>(Ruling.DefendantWins)
     const [file, setFile] = useState<File | null>(null)
-    const [recommendation, setRecommendation] = useState<any>(null)
     const ref = useRef(null)
     const { chains, switchChain } = useSwitchChain()
     const { address } = useAccount()
@@ -94,7 +93,7 @@ export default function ManageCase({ params }: { params: Params }) {
     }
 
     async function getRecommendation() {
-        setRecommendation('Defendant should win')
+        // setRecommendation('Defendant should win')
     }
 
     async function provideEvidence() {
@@ -441,25 +440,25 @@ export default function ManageCase({ params }: { params: Params }) {
                                 />
 
                                 {/* input group for selecting ruling */}
-                                {/* <RadioGroup
-                                    value={{ value: ruling, name: ruling }
-                                    onChange={(value) => {
-                                        setRuling(value)
+                                <RadioGroup
+                                    value={ruling+""}
+                                    onChange={(e) => {
+                                        setRuling((e.target as any).value)
                                     }}
                                 >
-                                    <RadioGroupItem value={Ruling.PlaintiffWins}>
+                                    <RadioGroupItem value={Ruling.PlaintiffWins+""}>
                                         Plaintiff wins
                                     </RadioGroupItem>
-                                    <RadioGroupItem value={Ruling.DefendantWins}>
+                                    <RadioGroupItem value={Ruling.DefendantWins+""}>
                                         Defendant wins
                                     </RadioGroupItem>
-                                    <RadioGroupItem value={Ruling.None}>
+                                    <RadioGroupItem value={Ruling.None+""}>
                                         No ruling
                                     </RadioGroupItem>
-                                </RadioGroup> */}
+                                </RadioGroup>
 
                                 <div>Recommendation</div>
-                                <p>{recommendation}</p>
+                                <p>{data.recommendation}</p>
 
                                 <div>Select Ruling</div>
                                 {Ruling[ruling]}

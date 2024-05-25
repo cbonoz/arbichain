@@ -6,7 +6,10 @@
 
 Smart contract managed financial Arbitration with AI-assisted verdicts.
 
-Live Demo url: https://arbichain.vercel.app
+Going after real world use case category for blockchain/smart contracts.
+
+Live Demo url: arbichainbeta.vercel.app
+
 
 <!-- Demo video: -->
 
@@ -18,13 +21,13 @@ By using the immutability of blockchain technology and artificial intelligence, 
 
 Arbichain provides a transparent and decentralized environment where evidence is securely stored on the blockchain, accessible to all parties involved. AI algorithms assist arbitrators in analyzing evidence objectively and making informed decisions, promoting fairness and impartiality in dispute resolution.
 
-Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes. Arbichain has a built in AI-advisor that's provided to the judge.
+Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes. Arbichain has a built in AI-advisor that's provided to the judge. Platforms like Kleros (kleros.com) exist, however requires using platform jurors and doesn't have as much flexibility to settle your own disputes without using their justice protocol / fee system. 
 
 Smart contracts prevent tampering with provided statements or evidence after they are provided.
 
 ### How it works
 
- Be able to create a simple arbitration thread without the overhead of signing up for a new protocol or platform and using existing blockchain networks and the Chainlink LLM.
+ <!-- Be able to create a simple arbitration thread without the overhead of signing up for a new protocol or platform and using existing blockchain networks and the Chainlink LLM. -->
 
 Every arbitration use gets its own smart contract.
 
@@ -55,6 +58,7 @@ Galadriel: AI chain fufillment
 Chainlink LLM: AI chain fufillment
 <!-- (address real world problems) -->
 Polygon Cardona: Deployment
+Avalanche: Deployment
 Scroll: Deployment
 <!-- Avalanche?: https://docs.google.com/document/d/1XYYRz5dXlRcDCb9jH6eGzClPQ8VBrXre6zM9U8cDBQs/edit -->
 <!-- Scroll: Use as infra, no need in demo video -->
@@ -62,6 +66,7 @@ Scroll: Deployment
 
 ### Challenges we ran into
 * Integrating chainlink and chainlink LLMs into the decision making process while maintaining a high level of security.
+* Using chainlink function to fufill an AI-based assessment.
 
 
 ### Accomplishments that we're proud of
@@ -93,12 +98,11 @@ The app should now be running on port 3000.
 
 
 ### Useful links
-* Contest: https://chainlinkblockmagic.devpost.com/
 * Chainlink functions: https://docs.chain.link/chainlink-functions
 
 <!--
 Arbichain
-Demo:
+Demo
 
 -->
 
