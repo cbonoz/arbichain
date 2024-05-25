@@ -242,7 +242,7 @@ export default function ManageCase({ params }: { params: Params }) {
                 {showResult && (
                     <div>
                         {/* Ruling */}
-                        <div className="text-xl my-2">{Ruling[data?.ruling]}</div>
+                        {data && <div className="text-xl my-2">{Ruling[data.ruling]}</div>}
 
                         <Separator/>
 
