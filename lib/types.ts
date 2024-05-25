@@ -20,14 +20,24 @@ export interface RequestData {
 //     uint256 closedAt;
 //     uint256 compensation;
 // }
+
+
+
+export interface Evidence {
+    user: string;
+    cid: string;
+    statement: string;
+}
+
 export interface ContractMetadata {
     owner: string
     network: string
     createdAt: number
     name: string
     description: string
-    plaintiff: string
-    defendant: string
+    plaintiff: Evidence
+    defendant: Evidence
+    ruling: Ruling;
     judge: string
     closedAt: number
     compensation: number

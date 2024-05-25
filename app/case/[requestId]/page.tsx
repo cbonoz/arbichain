@@ -2,11 +2,13 @@
 
 import { config } from '@/app/config'
 import BasicCard from '@/components/basic-card'
+import { RenderEvidence } from '@/components/render-evidence'
 import RenderObject from '@/components/render-object'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 import { ARB_CONTRACT } from '@/lib/contract/metadata'
 import { useEthersSigner } from '@/lib/get-signer'
-import { ContractMetadata } from '@/lib/types'
+import { ContractMetadata, Ruling } from '@/lib/types'
 import {
     abbreviate,
     formatCurrency,
@@ -16,11 +18,13 @@ import {
     transformMetadata,
 } from '@/lib/utils'
 import { ReloadIcon } from '@radix-ui/react-icons'
+import { writeContract } from '@wagmi/core'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import SignatureCanvas from 'react-signature-canvas'
 import { Address, Chain, createPublicClient, http } from 'viem'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 import {
     useAccount,
@@ -29,16 +33,7 @@ import {
     useSwitchChain,
     useWriteContract,
 } from 'wagmi'
-
-const RESULT_KEYS = [
-    'name',
-    'description',
-    'recipientName',
-    'recipientAddress',
-    'owner',
-    'network',
-    'attestationId',
-]
+import { Separator } from '@radix-ui/react-select'
 
 interface Params {
     requestId: Address
@@ -46,10 +41,14 @@ interface Params {
 
 export default function ManageCase({ params }: { params: Params }) {
     const [loading, setLoading] = useState(true)
-    const [signLoading, setSignLoading] = useState(false)
+    const [caseLoading, setCaseLoading] = useState(false)
     const [data, setData] = useState<ContractMetadata | undefined>()
     const [result, setResult] = useState<any>(null)
     const [error, setError] = useState<any>(null)
+    const [statement, setStatement] = useState('')
+    const [ruling, setRuling] = useState<Ruling>(Ruling.DefendantWins)
+    const [file, setFile] = useState<File | null>(null)
+    const [recommendation, setRecommendation] = useState<any>(null)
     const ref = useRef(null)
     const { chains, switchChain } = useSwitchChain()
     const { address } = useAccount()
@@ -82,6 +81,10 @@ export default function ManageCase({ params }: { params: Params }) {
             // convert balance and validatedAt to number from bigint
             console.log('contractData', contractData)
             setData(contractData)
+
+            if (contractData.judge === address) {
+                await getRecommendation()
+            }
         } catch (error) {
             console.log('error reading contract', error)
             setError(error)
@@ -90,12 +93,41 @@ export default function ManageCase({ params }: { params: Params }) {
         }
     }
 
-    // https://wagmi.sh/react/guides/read-from-contract
-    // const { data: balance } = useReadContract({
-    //     ...wagmiContractConfig,
-    //     functionName: 'balanceOf',
-    //     args: ['0x03A71968491d55603FFe1b11A9e23eF013f75bCF'],
-    //   })
+    async function getRecommendation() {
+        setRecommendation('Defendant should win')
+    }
+
+    async function provideEvidence() {
+        if (!statement) {
+            throw new Error('Please provide a statement')
+        }
+
+        setCaseLoading(true)
+        try {
+            // const attestation = { attestationId: '1234' }
+            // await switchChain({ chainId })
+            let cid = ''
+            // upload
+
+            const res = await writeContract(config, {
+                abi: ARB_CONTRACT.abi,
+                address: requestId,
+                functionName: 'submitEvidence',
+                args: [statement, cid],
+            })
+
+            console.log('submit evidence')
+            await fetchData()
+            alert(
+                'Evidence submitted! Please wait a few moments for the blockchain to update and refresh the page.'
+            )
+        } catch (error) {
+            console.log('error updating case', error)
+            setError(error)
+        } finally {
+            setCaseLoading(false)
+        }
+    }
 
     async function closeCase() {
         if (!data) {
@@ -103,18 +135,19 @@ export default function ManageCase({ params }: { params: Params }) {
             return
         }
 
-        setSignLoading(true)
+        setCaseLoading(true)
         try {
-
             // const attestation = { attestationId: '1234' }
             // await switchChain({ chainId })
 
-            // const res = await writeContract(config, {
-            //     abi: ARB_CONTRACT.abi,
-            //     address: requestId,
-            //     functionName: 'makeRuling',
-            //     args: [attestation.attestationId || ''],
-            // })
+            // TODO: make variable
+
+            const res = await writeContract(config, {
+                abi: ARB_CONTRACT.abi,
+                address: requestId,
+                functionName: 'makeRuling',
+                args: [ruling, 0],
+            })
 
             console.log('signcase validate')
             await fetchData()
@@ -124,8 +157,9 @@ export default function ManageCase({ params }: { params: Params }) {
         } catch (error) {
             console.log('error updating case', error)
             setError(error)
+        } finally {
+            setCaseLoading(false)
         }
-        setSignLoading(false)
     }
 
     useEffect(() => {
@@ -142,19 +176,25 @@ export default function ManageCase({ params }: { params: Params }) {
         return <div>Please connect your wallet</div>
     }
 
-    const authorized = data && (address === data.plaintiff || address === data.defendant || address === data.judge)
+    const isPlaintiff = address === data?.plaintiff.user
+    const isDefendant = address === data?.defendant.user
+    const isJudge = address === data?.judge
+
+    const authorized = isPlaintiff || isDefendant || isJudge
     const invalid = !loading && !data
     const isClosed = Boolean(data?.closedAt)
     const showActioncase = Boolean(authorized && !isClosed)
     const showResult = Boolean(authorized && isClosed)
+    const plaintiffSubmitted = data?.plaintiff.statement
+    const defendantSubmitted = data?.defendant.statement
+    const evidenceSubmitted =
+        (isPlaintiff && plaintiffSubmitted) ||
+        (isDefendant && defendantSubmitted)
+    const allFeedbackSubmitted = plaintiffSubmitted && defendantSubmitted
 
     const getTitle = () => {
         if (showResult) {
-            return (
-                <span className="text-green-500">
-                    This case is closed!
-                </span>
-            )
+            return <span className="text-green-500">This case is closed!</span>
         }
         if (showActioncase) {
             return data?.name || 'Arbitration case'
@@ -163,10 +203,10 @@ export default function ManageCase({ params }: { params: Params }) {
     }
 
     const getUserRole = () => {
-        if (address === data?.plaintiff) {
+        if (address === data?.plaintiff.user) {
             return 'plaintiff'
         }
-        if (address === data?.defendant) {
+        if (address === data?.defendant.user) {
             return 'defendant'
         }
         if (address === data?.judge) {
@@ -201,6 +241,11 @@ export default function ManageCase({ params }: { params: Params }) {
 
                 {showResult && (
                     <div>
+                        {/* Ruling */}
+                        <div className="text-xl my-2">{Ruling[data?.ruling]}</div>
+
+                        <Separator/>
+
                         <div className="text-sm text-bold">
                             <Link
                                 className="text-blue-500 hover:underline"
@@ -215,6 +260,48 @@ export default function ManageCase({ params }: { params: Params }) {
                             </Link>
                         </div>
 
+                        <div className="case-summary">
+                            <div className="text-2xl font-bold">
+                                {data?.name}
+                            </div>
+                            <div className="mb-4">{data?.description}</div>
+                            Evidence
+                            <div className="my-1">
+                                <RenderEvidence
+                                    user="Plaintiff"
+                                    data={data?.plaintiff}
+                                />
+                            </div>
+                            <div className="my-1">
+                                <RenderEvidence
+                                    user="Defendant"
+                                    data={data?.defendant}
+                                />
+                            </div>
+                            <div>
+                                <Label>Judge</Label>
+                                <div>
+                                    <Link
+                                        className="text-blue-500 hover:underline"
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                        href={getExplorerUrl(
+                                            data?.judge,
+                                            currentChain
+                                        )}
+                                    >
+                                        {abbreviate(data?.judge)}
+                                    </Link>
+                                </div>
+                            </div>
+                            <div>
+                                <Label>Compensation</Label>
+                                <div>
+                                    {formatCurrency(data?.compensation || 0)}
+                                </div>
+                            </div>
+                        </div>
+
                         {/* <div className="text-black-500"> */}
                         <div>
                             This case was closed by{' '}
@@ -222,25 +309,12 @@ export default function ManageCase({ params }: { params: Params }) {
                                 className="text-blue-500 hover:underline"
                                 rel="noopener noreferrer"
                                 target="_blank"
-                                href={getExplorerUrl(
-                                    data?.judge,
-                                    currentChain
-                                )}
+                                href={getExplorerUrl(data?.judge, currentChain)}
                             >
                                 {abbreviate(data?.judge)}
                             </Link>{' '}
                             at {formatDate(data?.closedAt)}
                         </div>
-
-                        {data && (
-                            <div className="mt-4">
-                                <RenderObject
-                                    title="Data"
-                                    obj={data}
-                                    keys={RESULT_KEYS}
-                                />
-                            </div>
-                        )}
                     </div>
                 )}
 
@@ -251,10 +325,7 @@ export default function ManageCase({ params }: { params: Params }) {
                                 className="text-blue-500 hover:underline"
                                 rel="noopener noreferrer"
                                 target="_blank"
-                                href={
-                                    getExplorerUrl(requestId, currentChain) ||
-                                    ''
-                                }
+                                href={getExplorerUrl(requestId, currentChain)}
                             >
                                 View on {data?.network || 'explorer'}
                             </Link>
@@ -264,12 +335,16 @@ export default function ManageCase({ params }: { params: Params }) {
                             <div className="mt-4">
                                 <div className="my-2">
                                     <div className="font-bold text-2xl mb-4 text-black-500">
-                                        Hey there
+                                        Hello,
                                     </div>
                                     <div className="mb-2">
-                                        You are the {getUserRole()} on this case.
+                                        You are the {getUserRole()} on this
+                                        case.
                                     </div>
                                     <hr />
+                                    <div className="text-2xl font-bold mt-4">
+                                        {data.name}
+                                    </div>
                                     <div className="my-4">
                                         {data.description}
                                     </div>
@@ -282,6 +357,15 @@ export default function ManageCase({ params }: { params: Params }) {
                                         </div>
                                     )}
 
+                                    {isJudge && allFeedbackSubmitted && (
+                                        <div>
+                                            {/* select who wins */}
+
+                                            <div className="text-xl font-bold mt-8">
+                                                Select winner
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="text-xl font-bold mt-8">
                                     Details
@@ -303,16 +387,98 @@ export default function ManageCase({ params }: { params: Params }) {
                             </div>
                         )}
 
-                        <Button
-                            onClick={() => {
-                                closeCase()
-                            }}
-                        >
-                            {signLoading && (
-                                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            Verify request
-                        </Button>
+                        {/* {data && (
+                            <div className="mt-4">
+                                <RenderObject
+                                    title="Data"
+                                    obj={data}
+                                    keys={RESULT_KEYS}
+                                />
+                            </div>
+                        )} */}
+
+                        {evidenceSubmitted && (
+                            <div>
+                                <h3 className="text-lg font-bold text-green-500">
+                                    Evidence submitted!
+                                </h3>
+                            </div>
+                        )}
+
+                        {!evidenceSubmitted && (
+                            <div className="submit-evidence">
+                                <Textarea
+                                    className="my-2"
+                                    value={statement}
+                                    onChange={(e) => {
+                                        setStatement(e.target.value)
+                                    }}
+                                    rows={5}
+                                />
+
+                                <Button
+                                    onClick={() => {
+                                        provideEvidence()
+                                    }}
+                                >
+                                    {caseLoading && (
+                                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                    Provide evidence
+                                </Button>
+                            </div>
+                        )}
+
+                        {isJudge && !allFeedbackSubmitted && (
+                            <div>
+                                <RenderEvidence
+                                    user="Plaintiff"
+                                    data={data?.plaintiff}
+                                />
+
+                                <RenderEvidence
+                                    user="Defendant"
+                                    data={data?.defendant}
+                                />
+
+                                {/* input group for selecting ruling */}
+                                {/* <RadioGroup
+                                    value={{ value: ruling, name: ruling }
+                                    onChange={(value) => {
+                                        setRuling(value)
+                                    }}
+                                >
+                                    <RadioGroupItem value={Ruling.PlaintiffWins}>
+                                        Plaintiff wins
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value={Ruling.DefendantWins}>
+                                        Defendant wins
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value={Ruling.None}>
+                                        No ruling
+                                    </RadioGroupItem>
+                                </RadioGroup> */}
+
+                                <div>Recommendation</div>
+                                <p>{recommendation}</p>
+
+                                <div>Select Ruling</div>
+                                {Ruling[ruling]}
+
+                                <hr />
+
+                                <Button
+                                    onClick={() => {
+                                        closeCase()
+                                    }}
+                                >
+                                    {caseLoading && (
+                                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                    Decide case
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 )}
 

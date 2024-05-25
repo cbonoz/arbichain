@@ -9,8 +9,8 @@ const Upload = () => {
             {/* make min width 400 */}
             <BasicCard
                 className="w-[600px] p-4"
-                title="Create new proof of arbitration case"
-                description="Create a new balance verification request. This item will become publicly available for other users to discover."
+                title="Create new case"
+                description="Create a arbitration case. This case will become available as a url for involved users to submit statements."
             >
                 <UploadForm />
             </BasicCard>

@@ -19,11 +19,11 @@ const NavHeader = () => {
                     href="/upload"
                     className="text-gray-500 hover:underline mx-4"
                 >
-                    Create arbitration case
+                    Create case
                 </a>
                 |
                 <a href="/case" className="text-gray-500 hover:underline mx-4">
-                    Verify arbitration case
+                    Case lookup
                 </a>
                 |
                 <a href="/about" className="text-gray-500 hover:underline mx-4">

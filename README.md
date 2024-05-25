@@ -38,10 +38,10 @@ Every arbitration use gets its own smart contract.
 
 ### Technologies used
 <!-- https://ethglobal.com/events/hackfs2024/prizes-->
-Filecoin: Storage of assets shared during the deliberation process.
-Lit Protocol: Security of the uploads and data on chain.
+Filecoin: Storage of assets shared during the deliberation process. Involved parties can upload evidence as a document and these are made available to the judge at the time of signing.
+Lit Protocol: Security of the uploads and data on chain. Involved parties sign their statements and evidence using the Lit message signing action before submitting to the network/contract..
 Galadriel: L1 AI Agent
-Huddle01:
+Huddle01: Video evidence.
 
 
 <!-- https://chainlinkblockmagic.devpost.com/ -->

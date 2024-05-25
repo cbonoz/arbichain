@@ -36,7 +36,7 @@ import { network } from 'hardhat'
 
 const formSchema = z.object({
     title: z.string().min(3, {
-        message: 'case name must be at least 3 characters.',
+        message: 'Case title must be at least 3 characters.',
     }),
     description: z.string(),
     plaintiff: z.string().min(3, {
@@ -48,8 +48,7 @@ const formSchema = z.object({
     judge: z.string().min(3, {
         message: 'Judge address must be at least 3 characters.',
     }),
-    // balance: z.string(),
-    // file: z.any().optional(),
+    file: z.any().optional(),
 })
 
 function UploadForm() {
@@ -67,11 +66,12 @@ function UploadForm() {
     const setDemoData = async () => {
         const currentAddress =
             address || '0x1234567890123456789012345678901234567890'
-        form.setValue('title', 'Condo damage dispute resolution')
+        form.setValue('title', 'Condo damage dispute between Sarah and John')
         form.setValue('description', getPlaceholderDescription())
         form.setValue('plaintiff', currentAddress)
         form.setValue('defendant', currentAddress)
         form.setValue('judge', currentAddress)
+        form.setValue('file', '')
     }
 
     const clearForm = () => {
@@ -80,6 +80,7 @@ function UploadForm() {
         form.setValue('plaintiff', '')
         form.setValue('defendant', '')
         form.setValue('judge', '')
+        form.setValue('file', '')
     }
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -87,17 +88,23 @@ function UploadForm() {
         defaultValues: {},
     })
 
+    function validate(values: any) {
+        // TODO: further validation
+        if (!values.plaintiff || !values.defendant || !values.judge || !values.title || !values.description) {
+            return 'Please fill in all fields'
+        }
+        return null
+    }
+
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true)
         setError(null)
         try {
             const res: any = {}
-            let balance = parseFloat(values.balance)
-            if (isNaN(balance) || balance <= 0) {
-                throw new Error(
-                    'Balance must be a valid number greater than 0.'
-                )
+            const validationError: string | null = validate(values)
+            if (validationError) {
+                throw new Error(validationError)
             }
 
             // upload file
@@ -107,7 +114,6 @@ function UploadForm() {
                 cid = await uploadFile(file)
                 console.log('fileAddress', cid)
             }
-
             // upload contract
 
             const contractAddress = await deployContract(
@@ -123,7 +129,7 @@ function UploadForm() {
             res['contractUrl'] = getExplorerUrl(contractAddress, currentChain)
             res['cid'] = cid
             res['message'] =
-                'case created successfully. Share the below url with the intended recipient.'
+                'Case created successfully. Share the below url with the intended recipient.'
             res['url'] = caseUrl(contractAddress)
             setResult(res)
             // scroll to result
@@ -262,6 +268,9 @@ function UploadForm() {
                                 ? 'Connect wallet to continue'
                                 : 'Create case'}
                         </Button>
+                        {loading && <span className='italic ml-2 text-sm text-gray-500'>
+                            Note this may take a few moments.
+                            </span>}
                     </form>
                 </Form>
             )}
@@ -289,7 +298,7 @@ function UploadForm() {
                             ></path>
                         </svg>
                         <div className="text-xl mb-4">
-                            case created successfully
+                            Case created successfully
                         </div>
                         <div className="flex flex-col items-center">
                             <div className="text-gray-500 text-sm my-2">

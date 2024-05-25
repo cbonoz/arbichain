@@ -8,6 +8,12 @@ contract ArbContract {
         DefendantWins
     }
 
+    struct Evidence {
+        address user;
+        string statement;
+        string cid;
+    }
+
     // Struct that represents the case of the case.
     struct Metadata {
         address owner;
@@ -16,10 +22,8 @@ contract ArbContract {
         string name;
         string description;
         // string cid; // optional cid pointer to attachment/s
-        address plaintiff;
-        address defendant;
-        string plaintiffCid;
-        string defendantCid;
+        Evidence plaintiff;
+        Evidence defendant;
         address judge;
         uint256 closedAt;
         uint256 compensation;
@@ -39,8 +43,8 @@ contract ArbContract {
 
     modifier onlyParties() {
         require(
-            msg.sender == metadata.plaintiff ||
-                msg.sender == metadata.defendant,
+            msg.sender == metadata.plaintiff.user ||
+                msg.sender == metadata.defendant.user,
             'Only involved parties can call this function'
         );
         _;
@@ -49,15 +53,10 @@ contract ArbContract {
     // Event to log arbitration completion.
     event CaseClosed(
         address indexed judge,
-        address indexed plaintiff,
-        address indexed defendant,
         Ruling ruling,
         uint256 compensation
     );
     event EvidenceSubmitted(address indexed submitter, string evidence);
-
-    // Map of address to string statement
-    mapping(address => string) public statements;
 
     // Constructor to initialize the contract
     constructor(
@@ -74,10 +73,8 @@ contract ArbContract {
             block.timestamp,
             _name,
             _description,
-            _plaintiff,
-            _defendant,
-            "",
-            "",
+            Evidence(_plaintiff, "", ""),
+            Evidence(_defendant, "", ""),
             _judge,
             0,
             0,
@@ -89,11 +86,10 @@ contract ArbContract {
         // Logic to submit evidence
         // For simplicity, let's assume evidence is just logged
         emit EvidenceSubmitted(msg.sender, _evidence);
-        statements[msg.sender] = _evidence;
-        if (msg.sender == metadata.plaintiff) {
-            metadata.plaintiffCid = _cid;
+        if (msg.sender == metadata.plaintiff.user) {
+            metadata.plaintiff = Evidence(msg.sender, _evidence, _cid);
         } else {
-            metadata.defendantCid = _cid;
+            metadata.defendant = Evidence(msg.sender, _evidence, _cid);
         }
     }
 
@@ -107,7 +103,7 @@ contract ArbContract {
         metadata.compensation = _compensation;
         metadata.closedAt = block.timestamp;
 
-        emit CaseClosed(metadata.judge, metadata.plaintiff, metadata.defendant, _ruling, _compensation);
+        emit CaseClosed(metadata.judge, _ruling, _compensation);
     }
 
     function withdrawCompensation() public {
@@ -115,16 +111,16 @@ contract ArbContract {
         // require that the balance provided was nonzero when the case was created.
         require(metadata.compensation > 0, 'No compensation available');
         require(
-            msg.sender == metadata.plaintiff || msg.sender == metadata.defendant,
+            msg.sender == metadata.plaintiff.user || msg.sender == metadata.defendant.user,
             'You are not entitled to compensation'
         );
         Ruling currentRuling = metadata.ruling;
         require(
-            currentRuling == Ruling.PlaintiffWins && msg.sender == metadata.plaintiff,
+            currentRuling == Ruling.PlaintiffWins && msg.sender == metadata.plaintiff.user,
             'You are not entitled to compensation'
         );
         require(
-            currentRuling == Ruling.DefendantWins && msg.sender == metadata.defendant,
+            currentRuling == Ruling.DefendantWins && msg.sender == metadata.defendant.user,
             'You are not entitled to compensation'
         );
 

@@ -71,9 +71,9 @@ export const makeRuling = async (signer: any, address: string, ruling: Ruling) =
 }
 
 
-export const submitEvidence = async (signer: any, address: string, evidence: string) => {
+export const submitEvidence = async (signer: any, address: string, evidence: string, cid: string) => {
     const contract = new ethers.Contract(address, ARB_CONTRACT.abi, signer)
-    const result = await contract.submitEvidence(evidence)
+    const result = await contract.submitEvidence(evidence, cid)
     console.log('result', result)
     return result;
 }

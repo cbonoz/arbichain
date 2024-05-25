@@ -52,6 +52,7 @@ export const getPlaceholderDescription = () => {
 
 export const transformMetadata = (contractData: ContractMetadata) => {
     contractData.createdAt = Number(contractData.createdAt) * 1000
+    contractData.closedAt = Number(contractData.closedAt) * 1000
     return contractData
 }
 
