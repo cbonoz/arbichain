@@ -10,7 +10,7 @@ const Upload = () => {
             <BasicCard
                 className="w-[600px] p-4"
                 title="Create new case"
-                description="Create a arbitration case. This case will become available as a url for involved users to submit statements."
+                description="Create a arbitration case. This case will become available as a url for involved parties (based on addresses) to submit statements."
             >
                 <UploadForm />
             </BasicCard>

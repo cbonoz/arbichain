@@ -37,7 +37,7 @@ export const config = {
         {
             title: 'Decide',
             description:
-                'The current deployer (acting as the judge) reviews the evidence and makes a final ruling on the case. The ruling is executed automatically by the smart contract with any events emitted as appropriate.',
+                'The current deployer acting as the judge lastly reviews the evidence and makes a final ruling on the case. The ruling is executed by the smart contract with a verdict contract event emitted.',
         },
     ],
     isLocal: process.env.NEXT_PUBLIC_ENV === 'development',
