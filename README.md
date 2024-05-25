@@ -4,7 +4,7 @@
 
 ## Arbichain
 
-AI-managed financial Arbitration backed by smart contracts.
+Smart contract managed financial Arbitration with AI-assisted verdicts.
 
 Live Demo url: https://arbichain.vercel.app
 
@@ -12,28 +12,35 @@ Live Demo url: https://arbichain.vercel.app
 
 ### Inspiration
 
-Traditional arbitration can be plagued by lengthy proceedings, cumbersome paperwork, and limited accessibility, leaving many individuals and businesses feeling disillusioned with the legal system. Moreover, the opacity of decision-making and enforcement challenges can erode trust in the fairness and integrity of arbitration outcomes.
+Traditional arbitration can be plagued by lengthy proceedings, cumbersome paperwork, and limited accessibility, leaving many individuals and businesses feeling disillusioned with the legal system. The opacity of the decision-making process and enforcement challenges can also erode trust in the fairness and integrity of traditional arbitration outcomes.
 
-By harnessing the power of blockchain technology and artificial intelligence, we aim to address these common shortcomings of the current arbitration process. Through the use of smart contracts, we ensure that agreements are tamper-proof and automatically executed, eliminating the need for intermediaries and streamlining the resolution process.
+By using the immutability of blockchain technology and artificial intelligence, we aim to address these common shortcomings of the current arbitration process. Through the use of smart contracts, we ensure that agreements are tamper-proof and automatically executed, eliminating the need for intermediaries and streamlining the resolution process.
 
-Our platform provides a transparent and decentralized environment where evidence is securely stored on the blockchain, accessible to all parties involved. AI algorithms assist arbitrators in analyzing evidence objectively and making informed decisions, promoting fairness and impartiality in dispute resolution.
+Arbichain provides a transparent and decentralized environment where evidence is securely stored on the blockchain, accessible to all parties involved. AI algorithms assist arbitrators in analyzing evidence objectively and making informed decisions, promoting fairness and impartiality in dispute resolution.
 
-* Smart contracts prevent tampering with provided statements or evidence after they are provided.
-* Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes.
-* Be able to create a simple arbitration thread without the overhead of signing up for a new protocol or platform and using existing blockchain networks and the Chainlink LLM.
+Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes. Arbichain has a built in AI-advisor that's provided to the judge.
+
+Smart contracts prevent tampering with provided statements or evidence after they are provided.
 
 ### How it works
-1. Users submit their dispute along with evidence and statements to the arbitration app.
-2. The app automatically generates a smart contract based on the submitted dispute and terms agreed upon by both parties.
-3. Arbitrators review the case and evidence provided by both parties. Specify an arbitrator using an address agreed on by both parties.
-4. Arbitrators make a decision based on the evidence and terms of the smart contract using AI input.
-5. The smart contract executes the decision, requesting or transferring locked funds or assets as necessary, based on the arbitrator's ruling.
+
+ Be able to create a simple arbitration thread without the overhead of signing up for a new protocol or platform and using existing blockchain networks and the Chainlink LLM.
+
+Every arbitration use gets its own smart contract.
+
+1. The judge or mediator registers the dispute. The app automatically generates a smart contract based on the submitted dispute and terms agreed upon by both parties.
+2. Each party uses the url to submit their case along with evidence and statements to the arbitration app.
+3. The judge reviews the case and evidence provided by both parties, making a decision based on the evidence and terms of the smart contract using Arbichain's AI input.
+4. The smart contract executes the decision, requesting or transferring locked funds or assets as necessary, based on the arbitrator's ruling.
+5. An event gets emitted from the smart contract with the decision with the result visible by all parties.
+
+<!-- Using a smart contracts ultimately prevents tampering with provided statements, evidence, and decision after they are provided with each interaction timestamped and recorded on the contract. -->
 
 ### Technologies used
 <!-- https://ethglobal.com/events/hackfs2024/prizes-->
 Filecoin: Storage of assets shared during the deliberation process.
 Lit Protocol: Security of the uploads and data on chain.
-Galadriel: L1 Agent
+Galadriel: L1 AI Agent
 Huddle01:
 
 

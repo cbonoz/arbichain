@@ -18,6 +18,8 @@ contract ArbContract {
         // string cid; // optional cid pointer to attachment/s
         address plaintiff;
         address defendant;
+        string plaintiffCid;
+        string defendantCid;
         address judge;
         uint256 closedAt;
         uint256 compensation;
@@ -74,6 +76,8 @@ contract ArbContract {
             _description,
             _plaintiff,
             _defendant,
+            "",
+            "",
             _judge,
             0,
             0,
@@ -81,11 +85,16 @@ contract ArbContract {
         );
     }
 
-    function submitEvidence(string memory _evidence) public onlyParties {
+    function submitEvidence(string memory _evidence, string memory _cid) public onlyParties {
         // Logic to submit evidence
         // For simplicity, let's assume evidence is just logged
         emit EvidenceSubmitted(msg.sender, _evidence);
         statements[msg.sender] = _evidence;
+        if (msg.sender == metadata.plaintiff) {
+            metadata.plaintiffCid = _cid;
+        } else {
+            metadata.defendantCid = _cid;
+        }
     }
 
     function makeRuling(
