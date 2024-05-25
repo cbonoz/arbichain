@@ -43,6 +43,11 @@ Lit Protocol: Security of the uploads and data on chain. Involved parties sign t
 Galadriel: L1 AI Agent
 Huddle01: Video evidence.
 
+### Example case
+http://localhost:3000/case/0xAb47620fb38750aF584304a03770796e7E0668b7
+
+http://localhost:3000/case/0xAb47620fb38750aF584304a03770796e7E0668b7
+
 
 <!-- https://chainlinkblockmagic.devpost.com/ -->
 #### Blockchain networks

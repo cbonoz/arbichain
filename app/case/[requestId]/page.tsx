@@ -184,7 +184,6 @@ export default function ManageCase({ params }: { params: Params }) {
     const invalid = !loading && !data
     const isClosed = Boolean(data?.closedAt)
     const showActioncase = Boolean(authorized && !isClosed)
-    const showResult = Boolean(authorized && isClosed)
     const plaintiffSubmitted = data?.plaintiff.statement
     const defendantSubmitted = data?.defendant.statement
     const evidenceSubmitted =
@@ -193,7 +192,7 @@ export default function ManageCase({ params }: { params: Params }) {
     const allFeedbackSubmitted = plaintiffSubmitted && defendantSubmitted
 
     const getTitle = () => {
-        if (showResult) {
+        if (isClosed) {
             return <span className="text-green-500">This case is closed!</span>
         }
         if (showActioncase) {
@@ -233,13 +232,13 @@ export default function ManageCase({ params }: { params: Params }) {
                     </div>
                 )}
 
-                {!authorized && (
+                {(!authorized && !isClosed) && (
                     <div>
                         <p>Not authorized to access this case</p>
                     </div>
                 )}
 
-                {showResult && (
+                {isClosed && (
                     <div>
                         {/* Ruling */}
                         {data && <div className="text-xl my-2">{Ruling[data.ruling]}</div>}
