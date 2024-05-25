@@ -1,0 +1,26 @@
+Scenario: Sarah and John are neighbors who own condominium units in the same building. Their units are located adjacent to each other, with a shared wall between them. One day, Sarah decides to renovate her condo and hires a contractor to install new plumbing fixtures, including a new shower system. During the renovation process, the contractor accidentally damages the shared wall, causing water leakage into John's condo. As a result, John's condo sustains water damage to the walls, floors, and furniture, requiring costly repairs.
+
+Dispute: John demands compensation from Sarah for the damages caused to his condo due to the contractor's negligence during her renovation. He presents evidence of the water damage, including photographs, repair estimates, and invoices for the repair work. John claims that Sarah is liable for the damages under the principle of negligence, as she hired the contractor and failed to ensure that the renovation work was conducted safely and without causing harm to neighboring properties.
+
+Sarah's Defense: Sarah acknowledges the damage caused to John's condo but argues that she should not be held liable for the full extent of the damages. She contends that the contractor, not her, was responsible for the damage and that she exercised reasonable care and diligence in selecting a reputable contractor for the renovation project. Sarah presents evidence of her due diligence in hiring the contractor, including contracts, invoices, and communications with the contractor regarding the scope of work and safety measures.
+
+Resolution: After reviewing the evidence and hearing arguments from both parties, the arbitrator determines that Sarah is primarily responsible for the damages caused to John's condo. While the contractor may have been directly involved in causing the damage, Sarah, as the property owner and employer of the contractor, bears ultimate responsibility for ensuring that the renovation work was conducted safely and without causing harm to neighboring properties. The arbitrator orders Sarah to compensate John for the full cost of the repairs to his condo, including labor, materials, and any additional expenses incurred due to the water damage.
+
+Outcome: John emerges as the clear winner in the arbitration, as the arbitrator finds Sarah liable for the damages caused to his condo. Sarah is ordered to pay John the agreed-upon amount for the repairs, thereby resolving the financial dispute between the two condo owners.
+
+
+John's Statement:
+
+"I am deeply concerned about the damage caused to my condo due to the negligence of Sarah's contractor during her renovation. The water leakage has resulted in significant damage to the walls, floors, and furniture of my condo, requiring extensive repairs and causing inconvenience and financial strain. I firmly believe that Sarah should be held accountable for the damages and should compensate me for the full cost of repairs.
+
+Sarah hired the contractor and initiated the renovation project, making her ultimately responsible for ensuring that the work was conducted safely and without causing harm to neighboring properties. Despite being aware of the shared wall between our units, Sarah failed to take adequate precautions to prevent damage to my condo during the renovation process. As a result, I have suffered losses and damages that were entirely avoidable.
+
+I have provided evidence of the damages, including photographs, repair estimates, and invoices for the repair work, which clearly demonstrate the extent of the harm caused to my condo. I urge the arbitrator to carefully consider the evidence and hold Sarah accountable for her negligence, ensuring that I receive fair compensation for the damages incurred."
+
+Sarah's Statement:
+
+"While I sympathize with John's situation and regret the damage caused to his condo during my renovation, I must emphasize that I should not be held solely responsible for the damages. I took reasonable precautions and exercised due diligence in hiring a reputable contractor for the renovation project, and I did not anticipate or intend for any harm to befall John's condo as a result of the renovation work.
+
+The contractor, not I, was directly responsible for the damage to John's condo, as they were the ones performing the renovation work. I provided clear instructions and oversight to the contractor, and I expected them to conduct the work safely and without causing harm to neighboring properties. Any negligence or mistakes on the part of the contractor should not be attributed to me, as I fulfilled my obligations as a property owner and employer of the contractor.
+
+I have provided evidence of my due diligence in hiring the contractor, including contracts, invoices, and communications regarding the scope of work and safety measures. I urge the arbitrator to consider all the evidence impartially and fairly, and to recognize that I should not be held liable for damages that were caused by the contractor's actions."
