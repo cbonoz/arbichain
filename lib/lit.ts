@@ -1,5 +1,4 @@
-import * as LitJsSdk from '@lit-protocol/lit-node-client@serrano'
-import { ENC_FILE_NAME } from './constants'
+import * as LitJsSdk from '@lit-protocol/lit-node-client'
 
 // https://developer.litprotocol.com/v2/LitActions/additionalExamples/usingEIP
 
@@ -13,11 +12,20 @@ import {
 } from '@ethersproject/bytes'
 import { recoverPublicKey, computePublicKey } from '@ethersproject/signing-key'
 
-// this code will be run on the node
-const litActionCode = fs.readFileSync('./build/signTxnTest.js')
-
 // you need an AuthSig to auth with the nodes
 // normally you would obtain an AuthSig by calling LitJsSdk.checkAndSignAuthMessage({chain})
+
+// this code will be run on the node
+const litActionCode: any = `
+const go = async () => {
+  // this requests a signature share from the Lit Node
+  // the signature share will be automatically returned in the HTTP response from the node
+  // all the params (toSign, publicKey, sigName) are passed in from the LitJsSdk.executeJs() function
+  const sigShare = await LitActions.ethPersonalSignMessageEcdsa({ message, publicKey , sigName });
+};
+
+go();
+`
 
 export const signMessage = async (address: string, message: string) => {
     const litNodeClient = new LitJsSdk.LitNodeClient({
@@ -51,7 +59,7 @@ export const signMessage = async (address: string, message: string) => {
         v: sig.recid,
     })
 
-    const { txParams } = response
+    const { txParams } = response as any
 
     console.log('encodedSig', encodedSig)
     console.log('sig length in bytes: ', encodedSig.substring(2).length / 2)
