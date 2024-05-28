@@ -69,7 +69,7 @@ function UploadForm() {
         form.setValue('title', 'Condo damage dispute between Sarah and John')
         form.setValue('description', getPlaceholderDescription())
         form.setValue('plaintiff', currentAddress)
-        form.setValue('defendant', currentAddress)
+        form.setValue('defendant', '0xaab58c7fD4246C8F5cA950f25De5Cd6Df5F56624')
         form.setValue('judge', currentAddress)
         form.setValue('file', '')
     }
@@ -90,7 +90,13 @@ function UploadForm() {
 
     function validate(values: any) {
         // TODO: further validation
-        if (!values.plaintiff || !values.defendant || !values.judge || !values.title || !values.description) {
+        if (
+            !values.plaintiff ||
+            !values.defendant ||
+            !values.judge ||
+            !values.title ||
+            !values.description
+        ) {
             return 'Please fill in all fields'
         }
         return null
@@ -268,18 +274,20 @@ function UploadForm() {
                                 ? 'Connect wallet to continue'
                                 : 'Create case'}
                         </Button>
-                        {loading && <span className='italic ml-2 text-sm text-gray-500'>
-                            Note this may take a few moments.
-                            </span>}
+                        {loading && (
+                            <span className="italic ml-2 text-sm text-gray-500">
+                                Note this may take a few moments.
+                            </span>
+                        )}
                     </form>
                 </Form>
             )}
             {hasResult && (
                 <div className="pt-8">
-                    <Button onClick={() => setResult(null)}>
+                    <a onClick={() => setResult(null)}>
                         {' '}
                         ← Create another request
-                    </Button>
+                    </a>
 
                     {/* center align */}
                     <div className="flex flex-col items-center  mt-8">
