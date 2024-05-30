@@ -21,7 +21,7 @@ By using the immutability of blockchain technology and artificial intelligence, 
 
 Arbichain provides a transparent and decentralized environment where evidence is securely stored on the blockchain, accessible to all parties involved. AI algorithms assist arbitrators in analyzing evidence objectively and making informed decisions, promoting fairness and impartiality in dispute resolution.
 
-Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes. Arbichain has a built in AI-advisor that's provided to the judge. Platforms like Kleros (kleros.com) exist, however requires using platform jurors and doesn't have as much flexibility to settle your own disputes without using their justice protocol / fee system. 
+Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes. Arbichain has a built in AI-advisor that's provided to the judge. Platforms like Kleros (kleros.com) exist, however requires using platform jurors and doesn't have as much flexibility to settle your own disputes without using their justice protocol / fee system.
 
 Smart contracts prevent tampering with provided statements or evidence after they are provided.
 
@@ -41,8 +41,12 @@ Every arbitration use gets its own smart contract.
 
 ### Technologies used
 <!-- https://ethglobal.com/events/hackfs2024/prizes-->
-Filecoin: Storage of assets shared during the deliberation process. Involved parties can upload evidence as a document and these are made available to the judge at the time of signing.
-Lit Protocol: Security of the uploads and data on chain. Involved parties sign their statements and evidence using the Lit message signing action before submitting to the network/contract..
+Filecoin: Storage of assets shared during the deliberation process. Involved parties can upload evidence as a document and these are made available to the judge at the time of case determination. Filecoin entries are dynamically linked to the smart contract and only returned to the parties when the case is accessed.
+Lit Protocol: Security of the uploads and data on chain. Involved parties sign their statements and evidence using the Lit message signing action before submitting to the network/contract.
+
+Chainlink:
+* Programmatic management of subscriptions: Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
+* Chainlink Function call: Prior to closing, a chainlink function call is made that analyzes both the plaintiff's and defendant's response and saves it to the contract state. This result is shown to the judge during determination.
 Galadriel: L1 AI Agent
 Huddle01: Video evidence.
 
@@ -55,9 +59,8 @@ http://localhost:3000/case/0xAb47620fb38750aF584304a03770796e7E0668b7
 <!-- https://chainlinkblockmagic.devpost.com/ -->
 #### Blockchain networks
 Galadriel: AI chain fufillment
-Chainlink LLM: AI chain fufillment
-Polygon Cardona: Deployment
-Avalanche: Deployment
+
+Avalanche: Chainlink function compatible Fuji contracts
 Scroll: Deployment
 <!-- (address real world problems) -->
 <!-- Avalanche?: https://docs.google.com/document/d/1XYYRz5dXlRcDCb9jH6eGzClPQ8VBrXre6zM9U8cDBQs/edit -->

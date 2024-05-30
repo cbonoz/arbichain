@@ -9,7 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@chainlink/contracts": "^1.1.0",
+        "@chainlink/contracts": "^1.1.1",
         "@hookform/resolvers": "^3.3.4",
         "@lighthouse-web3/sdk": "^0.3.0",
         "@lit-protocol/lit-node-client": "^2.2.62",

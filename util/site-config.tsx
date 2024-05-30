@@ -1,6 +1,7 @@
 export const config = {
     title: 'Arbichain',
-    description: 'Blockchain-mediated arbitration using Chainlink LLMs',
+    description:
+        'Smart contract assisted financial dispute arbitration using on-chain AI',
     about: [
         {
             title: 'What is Arbichain?',

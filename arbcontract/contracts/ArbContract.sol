@@ -27,12 +27,12 @@ contract ArbContract {
         address judge;
         uint256 closedAt;
         uint256 compensation;
+        string recommendation;
         Ruling ruling;
     }
 
     // metadata
     Metadata private metadata;
-    private string recommendation;
 
     modifier onlyJudge() {
         require(
@@ -79,6 +79,7 @@ contract ArbContract {
             _judge,
             0,
             0,
+            "",
             Ruling.None
         );
     }
@@ -131,20 +132,17 @@ contract ArbContract {
         payable(msg.sender).transfer(amount);
     }
 
-    function getRecommendation() public onlyJudge {
+    function setRecommendation() public onlyJudge {
         // Logic to get recommendation
         // For simplicity, let's assume recommendation is just logged
-        recommendation = "Plaintiff should be compensated";
+        metadata.recommendation = "Plaintiff should be compensated";
     }
 
     // get metadata
-    function getMetadata() public view returns (Metadata memory) {
+    function getMetadata() public returns (Metadata memory) {
         // if judge
         if (msg.sender == metadata.judge) {
-            getRecommendation();
-            metadata.recommendation = recommendation;
-        } else {
-            metadata.recommendation = "";
+            setRecommendation();
         }
         return metadata;
     }

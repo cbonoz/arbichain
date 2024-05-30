@@ -1,0 +1,14 @@
+{
+  "name": "arbcontract",
+  "version": "1.0.0",
+  "description": "Arbichain smart contract",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@chainlink/contracts": "^1.1.1"
+  }
+}
