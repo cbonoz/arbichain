@@ -213,6 +213,8 @@ export default function ManageCase({ params }: { params: Params }) {
         return 'unknown'
     }
 
+    const compensation = data?.compensation || 0
+
     return (
         // center align
         <div className="flex flex-col items-center justify-center mt-8">
@@ -279,7 +281,7 @@ export default function ManageCase({ params }: { params: Params }) {
                                 {data?.name}
                             </div>
                             <div className="mb-4">{data?.description}</div>
-                            Evidence
+                            <div className="text-lg font-bold">Evidence</div>
                             <div className="my-1">
                                 <RenderEvidence
                                     user="Plaintiff"
@@ -308,12 +310,12 @@ export default function ManageCase({ params }: { params: Params }) {
                                     </Link>
                                 </div>
                             </div>
-                            <div>
-                                <Label>Compensation</Label>
+                            {compensation && (
                                 <div>
-                                    {formatCurrency(data?.compensation || 0)}
+                                    <Label>Compensation</Label>
+                                    <div>{formatCurrency(compensation)}</div>
                                 </div>
-                            </div>
+                            )}
                         </div>
 
                         {/* <div className="text-black-500"> */}

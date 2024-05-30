@@ -1,5 +1,5 @@
 import { Evidence } from '@/lib/types'
-import { getIpfsUrl, isEmpty } from '@/lib/utils'
+import { abbreviate, getIpfsUrl, isEmpty } from '@/lib/utils'
 import BasicCard from './basic-card'
 
 interface Props {
@@ -11,11 +11,12 @@ export const RenderEvidence = ({ user, data }: Props) => {
     const statement = data?.statement
     const hasStatement = !isEmpty(statement)
 
+    // const title = `${user} ${abbreviate(data?.user || '')}`
+    const title = user
+
     return (
-        <BasicCard title={user} className="py-1 my-4 max-width-[400px]">
-            {!hasStatement && (
-                <div>{user} has not provided a statement yet.</div>
-            )}
+        <BasicCard title={title} className="py-1 my-4 max-width-[400px]">
+            {!hasStatement && <div>{user} has not provided a statement.</div>}
             {hasStatement && (
                 <div>
                     <div className="text-l">Statement</div>
