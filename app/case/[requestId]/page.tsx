@@ -231,7 +231,7 @@ export default function ManageCase({ params }: { params: Params }) {
                     </div>
                 )}
 
-                {(!authorized && !isClosed) && (
+                {!authorized && !isClosed && (
                     <div>
                         <p>Not authorized to access this case</p>
                     </div>
@@ -240,11 +240,27 @@ export default function ManageCase({ params }: { params: Params }) {
                 {isClosed && (
                     <div>
                         {/* Ruling */}
-                        {data && <div className="text-xl my-2">{Ruling[data.ruling]}</div>}
+                        {data && (
+                            <div className="text-xl my-2">
+                                {Ruling[data.ruling]}
+                            </div>
+                        )}
 
-                        <Separator/>
+                        <div>
+                            This case was closed by{' '}
+                            <Link
+                                className="text-blue-500 hover:underline"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                                href={getExplorerUrl(data?.judge, currentChain)}
+                            >
+                                {abbreviate(data?.judge)}
+                            </Link>{' '}
+                            at {formatDate(data?.closedAt)}
+                        </div>
+                        <Separator />
 
-                        <div className="text-sm text-bold">
+                        <div className="text-sm text-bold mt-4">
                             <Link
                                 className="text-blue-500 hover:underline"
                                 rel="noopener noreferrer"
@@ -301,18 +317,6 @@ export default function ManageCase({ params }: { params: Params }) {
                         </div>
 
                         {/* <div className="text-black-500"> */}
-                        <div>
-                            This case was closed by{' '}
-                            <Link
-                                className="text-blue-500 hover:underline"
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                href={getExplorerUrl(data?.judge, currentChain)}
-                            >
-                                {abbreviate(data?.judge)}
-                            </Link>{' '}
-                            at {formatDate(data?.closedAt)}
-                        </div>
                     </div>
                 )}
 
@@ -429,6 +433,9 @@ export default function ManageCase({ params }: { params: Params }) {
 
                         {isJudge && !allFeedbackSubmitted && (
                             <div>
+                                <div className="text-xl font-bold mt-8">
+                                    Statements
+                                </div>
                                 <RenderEvidence
                                     user="Plaintiff"
                                     data={data?.plaintiff}
@@ -438,43 +445,64 @@ export default function ManageCase({ params }: { params: Params }) {
                                     user="Defendant"
                                     data={data?.defendant}
                                 />
+                                <div className="text-xl font-bold mt-8">
+                                    Select Ruling
+                                </div>
+                                {!allFeedbackSubmitted && (
+                                    <div className="text-red-500 mb-2">
+                                        Warning: Not all statements have been
+                                        submitted yet.
+                                    </div>
+                                )}
 
-                                {/* input group for selecting ruling */}
                                 <RadioGroup
-                                    value={ruling+""}
-                                    onChange={(e) => {
-                                        setRuling((e.target as any).value)
+                                    value={ruling + ''}
+                                    onValueChange={(v: any) => {
+                                        setRuling(v as Ruling)
                                     }}
                                 >
-                                    <RadioGroupItem value={Ruling.PlaintiffWins+""}>
-                                        Plaintiff wins
-                                    </RadioGroupItem>
-                                    <RadioGroupItem value={Ruling.DefendantWins+""}>
-                                        Defendant wins
-                                    </RadioGroupItem>
-                                    <RadioGroupItem value={Ruling.None+""}>
-                                        No ruling
-                                    </RadioGroupItem>
+                                    <div className="flex space-x-2">
+                                        <RadioGroupItem
+                                            value={Ruling.PlaintiffWins + ''}
+                                        />
+                                        <Label>Plaintiff wins</Label>
+                                    </div>
+                                    <div className="flex space-x-2">
+                                        <RadioGroupItem
+                                            value={Ruling.DefendantWins + ''}
+                                        />
+                                        <Label>Defendant wins</Label>
+                                    </div>
+                                    <div className="flex space-x-2">
+                                        <RadioGroupItem
+                                            value={Ruling.None + ''}
+                                        />
+                                        <Label>Split</Label>
+                                    </div>
                                 </RadioGroup>
 
-                                <div>Recommendation</div>
-                                <p>{data.recommendation}</p>
+                                {data.recommendation && (
+                                    <div>
+                                        <div>Recommendation</div>
+                                        <p>{data.recommendation}</p>
+                                    </div>
+                                )}
 
-                                <div>Select Ruling</div>
-                                {Ruling[ruling]}
+                                {/* {Ruling[ruling]} */}
 
-                                <hr />
-
-                                <Button
-                                    onClick={() => {
-                                        closeCase()
-                                    }}
-                                >
-                                    {caseLoading && (
-                                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                                    )}
-                                    Decide case
-                                </Button>
+                                <Separator />
+                                <div className="mt-4">
+                                    <Button
+                                        onClick={() => {
+                                            closeCase()
+                                        }}
+                                    >
+                                        {caseLoading && (
+                                            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                                        )}
+                                        Decide case
+                                    </Button>
+                                </div>
                             </div>
                         )}
                     </div>

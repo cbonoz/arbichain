@@ -99,6 +99,17 @@ function UploadForm() {
         ) {
             return 'Please fill in all fields'
         }
+        // check unique
+        if (values.plaintiff === values.defendant) {
+            return 'Plaintiff and defendant addresses must be different'
+        }
+        if (values.plaintiff === values.judge) {
+            return 'Plaintiff and judge addresses must be different'
+        }
+        if (values.defendant === values.judge) {
+            return 'Defendant and judge addresses must be different'
+        }
+        
         return null
     }
 

@@ -8,7 +8,7 @@ import {
 } from 'wagmi/chains'
 
 export const config = createConfig({
-    chains: [avalancheFuji], //, polygonZkEvmCardona, scrollSepolia, mainnet],
+    chains: [avalancheFuji, sepolia], //, polygonZkEvmCardona, scrollSepolia, mainnet],
     ssr: true,
     storage: createStorage({
         storage: cookieStorage,
