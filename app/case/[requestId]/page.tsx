@@ -27,6 +27,12 @@ import { Address, Chain, createPublicClient, http } from 'viem'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { uploadFile } from '@/lib/stor'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+  } from "@/components/ui/accordion"
 
 import {
     useAccount,
@@ -531,10 +537,14 @@ export default function ManageCase({ params }: { params: Params }) {
 
                                 {data.recommendation && (
                                     <div>
-                                        <div className="text-xl">
-                                            AI Recommendation
-                                        </div>
-                                        <p>{data.recommendation}</p>
+                                       <Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>AI Recommendation</AccordionTrigger>
+    <AccordionContent>
+        {data.recommendation}
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
                                     </div>
                                 )}
 
@@ -600,7 +610,8 @@ export default function ManageCase({ params }: { params: Params }) {
                                 {/* {Ruling[ruling]} */}
                                 {!allFeedbackSubmitted && (
                                     <div>
-                                        <span className="text-red-500 mb-2">
+                                        <br/>
+                                        <span className="text-red-500 my-2">
                                             Warning: Not all statements have
                                             been submitted yet.
                                         </span>
