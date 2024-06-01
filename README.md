@@ -42,22 +42,26 @@ Every arbitration use gets its own smart contract.
 ### Technologies used
 
 <!-- https://ethglobal.com/events/hackfs2024/prizes-->
-Filecoin: Storage of assets shared during the deliberation process. Involved parties can upload evidence as a document and these are made available to the judge at the time of case determination. Filecoin entries are dynamically linked to the smart contract and only returned to the parties when the case is accessed. Lighthouse is used for both secure uploads and as a gateway for fetching the secured assets for each case created on the app. 
+1. <b>Filecoin</b>: Storage of assets shared during the deliberation process. Involved parties can upload evidence as a document and these are made available to the judge at the time of case determination. Filecoin entries are dynamically linked to the smart contract and only returned to the parties when the case is accessed. Lighthouse is used for both secure uploads and as a gateway for fetching the secured assets for each case created on the app. 
 
-Lit Protocol: Security of the uploads and data on chain. Involved parties sign their statements and evidence using the Lit message encrypt action before submitting to the network/contract. Each statement is encrypted using the metamask or signing wallet before being persisted on the network. The judge is the only party that decrypts the messages before having them displayed in the UI when the case is being decided.
+2. <b>Lit Protocol</b>: Security of the uploads and data on chain. Involved parties sign their statements and evidence using the Lit message encrypt action before submitting to the network/contract. Each statement is encrypted using the metamask or signing wallet before being persisted on the network. The judge is the only party that decrypts the messages before having them displayed in the UI when the case is being decided. 
 
-Galadriel: L1 AI Smart contract network. Arbichain uses Galadriel smart contracts to provide an AI-assisted assessment of the case by merging the case description with the statements from the involved parties. Before making the final decision, the judge can review the on-chain LLM recommendation for the case saved to the contract.
+3. <b>Galadriel</b>: L1 AI Smart contract network. Arbichain uses Galadriel smart contracts to provide an AI-assisted assessment of the case by merging the case description with the statements from the involved parties. Before making the final decision, the judge can review the on-chain LLM recommendation for the case saved to the contract.
 
-Chainlink:
+4. <b>Chainlink</b>:
 * Programmatic management of subscriptions: Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
-* Chainlink Function call: Prior to closing, a chainlink function call is made that analyzes both the plaintiff's and defendant's response and saves it to the contract state. This result is shown to the judge during determination.
+* Chainlink VRF call: Prior to closing, a chainlink function call is made that generates a random value for both the plaintiff's and defendant's response and saves it to the contract state. This result is shown to the judge during determination. Randomness is used in multiple ways if on a supported network (ex: Fuji):
+-- Random presentation of evidence to the judge: Ordering can bias analysis, a random value is used to indicate which evidence is presented first
+--  Randomness in deadline. A week + a random number of days is added to each individual's deadline for providing evidence before close.
 
-Huddle01: Video meeting between participants. Huddle can be used by the judge to initiate a closing session and invite the participants.
+5. <b>Avalanche Fuji</b>: Alternative network that could be used for deployment that offers high throughput and low latency of confirmation. This is key for confirming asynchronous actions such as those involving external oracle calls (ex: Chainlink) and getting a result quickly. The low costs are also beneficial for enabling participants to submit evidence and statements at low cost. Avalanche provides access to various DeFi tools, and oracles like Chainlink used by Arbichain underneath.
+
+<!-- Huddle01: Video meeting between participants. Huddle can be used by the judge to initiate a closing session and invite the participants. -->
 
 ### Example case
 
 
-Avalanche: Chainlink function compatible Fuji contracts
+Avalanche Fuji: Chainlink function compatible Fuji contracts
 Scroll: Deployment
 <!-- (address real world problems) -->
 <!-- Avalanche?: https://docs.google.com/document/d/1XYYRz5dXlRcDCb9jH6eGzClPQ8VBrXre6zM9U8cDBQs/edit -->
