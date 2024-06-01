@@ -570,14 +570,18 @@ export default function ManageCase({ params }: { params: Params }) {
                     </div>
                 )}
 
-                {result && (
-                    <div className="mt-4">
-                        <h3 className="text-lg font-bold">Result</h3>
-                        <p>{result}</p>
-                    </div>
-                )}
+                <div className="mt-4">
+                    {result && (
+                        <div className="mt-4">
+                            <div className="text-lg font-bold">Result</div>
+                            <p>{result}</p>
+                        </div>
+                    )}
 
-                {error && <div className="text-red-500">{error.message}</div>}
+                    {error && (
+                        <div className="text-red-500">{error.message}</div>
+                    )}
+                </div>
             </BasicCard>
         </div>
     )

@@ -19,15 +19,20 @@ export const RenderEvidence = ({ user, data }: Props) => {
             {!hasStatement && <div>{user} has not provided a statement.</div>}
             {hasStatement && (
                 <div>
-                    <div className="text-l">Statement</div>
+                    {/* <span className="text-xl">Statement</span> */}
                     <p>{statement}</p>
+                    <br />
                     {data?.cid && (
-                        <div>
-                            <h1>CID</h1>
-                            <a href={getIpfsUrl(data.cid)} target="_blank">
+                        <span>
+                            <div className="text-xl">Upload</div>
+                            <a
+                                href={getIpfsUrl(data.cid)}
+                                target="_blank"
+                                className="cursor-pointer text-blue-500 hover:underline"
+                            >
                                 View upload from {user}
                             </a>
-                        </div>
+                        </span>
                     )}
                 </div>
             )}
