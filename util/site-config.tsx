@@ -44,5 +44,4 @@ export const siteConfig = {
                 'The judge reviews the evidence and makes a final ruling on the case. The ruling is saved immutably to the contract and emitted as a smart contract event.',
         },
     ],
-    isLocal: process.env.NEXT_PUBLIC_ENV === 'development',
 }
