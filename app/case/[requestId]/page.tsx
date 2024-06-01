@@ -53,6 +53,7 @@ interface Params {
 export default function ManageCase({ params }: { params: Params }) {
     const [loading, setLoading] = useState(true)
     const [caseLoading, setCaseLoading] = useState(false)
+    const [recLoading, setRecLoading] = useState(false)
     const [data, setData] = useState<ContractMetadata | undefined>()
     const [result, setResult] = useState<any>(null)
     const [error, setError] = useState<any>(null)
@@ -131,6 +132,27 @@ export default function ManageCase({ params }: { params: Params }) {
 
     async function getRecommendation(prompt: string) {
         // setRecommendation('Defendant should win')
+        setRecLoading(true)
+        try {
+
+            // make contract call with prompt
+            const res = await writeContract(config, {
+                abi: ARB_CONTRACT.abi,
+                address: requestId,
+                functionName: 'getRecommendation',
+                args: [prompt],
+            })
+
+            console.log('get recommendation', res)
+            setResult(res)
+            
+        } catch (error) {
+            console.log('error getting recommendation', error)
+            setError(error)
+        }
+        finally {
+            setRecLoading(false)
+        }
     }
 
     async function provideEvidence() {
