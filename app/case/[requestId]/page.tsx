@@ -32,7 +32,7 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-  } from "@/components/ui/accordion"
+} from '@/components/ui/accordion'
 
 import {
     useAccount,
@@ -537,14 +537,16 @@ export default function ManageCase({ params }: { params: Params }) {
 
                                 {data.recommendation && (
                                     <div>
-                                       <Accordion type="single" collapsible>
-  <AccordionItem value="item-1">
-    <AccordionTrigger>AI Recommendation</AccordionTrigger>
-    <AccordionContent>
-        {data.recommendation}
-    </AccordionContent>
-  </AccordionItem>
-</Accordion>
+                                        <Accordion type="single" collapsible>
+                                            <AccordionItem value="item-1">
+                                                <AccordionTrigger>
+                                                    AI Recommendation
+                                                </AccordionTrigger>
+                                                <AccordionContent>
+                                                    {data.recommendation}
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        </Accordion>
                                     </div>
                                 )}
 
@@ -610,7 +612,7 @@ export default function ManageCase({ params }: { params: Params }) {
                                 {/* {Ruling[ruling]} */}
                                 {!allFeedbackSubmitted && (
                                     <div>
-                                        <br/>
+                                        <br />
                                         <span className="text-red-500 my-2">
                                             Warning: Not all statements have
                                             been submitted yet.
