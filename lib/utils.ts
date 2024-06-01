@@ -115,5 +115,7 @@ export const createLlmPrompt = (
     defendantStatement: string,
     plaintiffStatement: string
 ) => {
-    return `This is a dispute resolution case between two parties called ${name}. ${description}. The defendant has provided the following statement or hasn't responded yet if blank: ${defendantStatement}. The plaintiff has provided the following statement or hasn't responded yet if blank: ${plaintiffStatement}. You have to make a ruling on this case. Who wins and why?`
+    const defendantString = defendantStatement ? `The defendant has provided the following statement: ${defendantStatement}.` : ''
+    const plaintiffString = plaintiffStatement ? `The plaintiff has provided the following statement: ${plaintiffStatement}.` : ''
+    return `This is a dispute resolution case between two parties called ${name}. ${description}. ${defendantString} ${plaintiffString} You have to make a ruling on this case. Who wins and why?`
 }

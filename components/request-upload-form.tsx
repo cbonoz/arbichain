@@ -304,7 +304,7 @@ function UploadForm() {
                     </a> */}
 
                     {/* center align */}
-                    <div className="flex flex-col items-center  mt-8">
+                    <div className="flex flex-col items-center  mt-4">
                         <svg
                             width="128"
                             height="128"

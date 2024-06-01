@@ -60,6 +60,7 @@ export default function ManageCase({ params }: { params: Params }) {
     const [statement, setStatement] = useState('')
     const [ruling, setRuling] = useState<Ruling>(Ruling.DefendantWins)
     const [file, setFile] = useState<File | null>(null)
+    const [proceed, setProceed] = useState(false)
     const ref = useRef(null)
     const { chains, switchChain } = useSwitchChain()
     const { address } = useAccount()
@@ -134,7 +135,6 @@ export default function ManageCase({ params }: { params: Params }) {
         // setRecommendation('Defendant should win')
         setRecLoading(true)
         try {
-
             // make contract call with prompt
             const res = await writeContract(config, {
                 abi: ARB_CONTRACT.abi,
@@ -143,14 +143,12 @@ export default function ManageCase({ params }: { params: Params }) {
                 args: [prompt],
             })
 
-            console.log('get recommendation', res)
+            console.log('get recommendation', prompt, res)
             setResult(res)
-            
         } catch (error) {
             console.log('error getting recommendation', error)
             setError(error)
-        }
-        finally {
+        } finally {
             setRecLoading(false)
         }
     }
@@ -530,6 +528,16 @@ export default function ManageCase({ params }: { params: Params }) {
                                     user="Defendant"
                                     data={data?.defendant}
                                 />
+
+                                {data.recommendation && (
+                                    <div>
+                                        <div className="text-xl">
+                                            AI Recommendation
+                                        </div>
+                                        <p>{data.recommendation}</p>
+                                    </div>
+                                )}
+
                                 <div className="text-xl font-bold mt-8">
                                     Select Ruling
                                 </div>
@@ -560,44 +568,62 @@ export default function ManageCase({ params }: { params: Params }) {
                                     </div>
                                 </RadioGroup>
                                 {/* TODO: add chainlink call */}
-                                {isJudge && chainId === galadrielDevnet.id && (
-                                    <div>
-                                        <Button
-                                            onClick={() => {
-                                                getRecommendation(
-                                                    createLlmPrompt(
-                                                        data?.name,
-                                                        data?.description,
-                                                        data?.plaintiff
-                                                            .statement,
-                                                        data?.defendant
-                                                            .statement
+                                {!data?.recommendation &&
+                                    isJudge &&
+                                    chainId === galadrielDevnet.id && (
+                                        <div className="my-2">
+                                            <Button
+                                                disabled={recLoading}
+                                                onClick={() => {
+                                                    getRecommendation(
+                                                        createLlmPrompt(
+                                                            data?.name,
+                                                            data?.description,
+                                                            data?.plaintiff
+                                                                .statement,
+                                                            data?.defendant
+                                                                .statement
+                                                        )
                                                     )
-                                                )
-                                            }}
-                                        >
-                                            Get AI Recommendation
-                                        </Button>
-                                    </div>
-                                )}
-
-                                {data.recommendation && (
-                                    <div>
-                                        <div>Recommendation</div>
-                                        <p>{data.recommendation}</p>
-                                    </div>
-                                )}
+                                                }}
+                                            >
+                                                {recLoading && (
+                                                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                                                )}
+                                                Get AI Recommendation
+                                            </Button>
+                                        </div>
+                                    )}
 
                                 <Separator />
+                                <hr />
                                 {/* {Ruling[ruling]} */}
                                 {!allFeedbackSubmitted && (
-                                    <div className="text-red-500 mb-2">
-                                        Warning: Not all statements have been
-                                        submitted yet.
+                                    <div>
+                                        <span className="text-red-500 mb-2">
+                                            Warning: Not all statements have
+                                            been submitted yet.
+                                        </span>
+                                        &nbsp;
+                                        {!proceed && (
+                                            <span>
+                                                <a
+                                                    className="text-blue-500 hover:underline cursor-pointer"
+                                                    href="#"
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        setProceed(true)
+                                                    }}
+                                                >
+                                                    Continue anyway
+                                                </a>
+                                            </span>
+                                        )}
                                     </div>
                                 )}
                                 <div className="mt-4">
                                     <Button
+                                        disabled={caseLoading || !proceed}
                                         onClick={() => {
                                             closeCase()
                                         }}

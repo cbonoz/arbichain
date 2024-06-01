@@ -2,6 +2,7 @@ import { ARB_CONTRACT } from './metadata'
 import { formatDate } from '../utils'
 import { ethers } from 'ethers'
 import { Ruling } from '../types'
+import { GALADRIEL_ORACLE_TESTNET } from '../constants'
 
 const ethToWei = (amount: any) => {
     return ethers.parseEther(amount + '')
@@ -14,7 +15,7 @@ export async function deployContract(
     plaintiff: string,
     defendant: string,
     judge: string,
-    network: string
+    network: string,
 ) {
     // Deploy contract with ethers
     const factory = new ethers.ContractFactory(
@@ -33,6 +34,7 @@ export async function deployContract(
         plaintiff,
         defendant,
         judge,
+        GALADRIEL_ORACLE_TESTNET
     )
     // log
     console.log(
@@ -42,7 +44,8 @@ export async function deployContract(
         network,
         plaintiff,
         defendant,
-        judge
+        judge,
+        GALADRIEL_ORACLE_TESTNET
     )
 
     contract = await contract.waitForDeployment()
