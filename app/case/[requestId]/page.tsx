@@ -150,7 +150,8 @@ export default function ManageCase({ params }: { params: Params }) {
             })
 
             console.log('get recommendation', prompt, res)
-            setResult(res)
+            const transaction = getExplorerUrl(res, currentChain, true)
+            setResult({ transaction, message: 'Success: Recommendation will be available here once confirmed on the network' })
         } catch (error) {
             console.log('error getting recommendation', error)
             setError(error)
@@ -538,9 +539,9 @@ export default function ManageCase({ params }: { params: Params }) {
                                 {data.recommendation && (
                                     <div>
                                         <Accordion type="single" collapsible>
-                                            <AccordionItem value="item-1">
+                                            <AccordionItem value="item-1" className='max-width-[400px]'>
                                                 <AccordionTrigger>
-                                                    AI Recommendation
+                                                    View AI Recommendation
                                                 </AccordionTrigger>
                                                 <AccordionContent>
                                                     {data.recommendation}
@@ -655,8 +656,7 @@ export default function ManageCase({ params }: { params: Params }) {
                 <div className="mt-4">
                     {result && (
                         <div className="mt-4">
-                            <div className="text-lg font-bold">Result</div>
-                            <p>{result}</p>
+                            <RenderObject title="Result" obj={result} />
                         </div>
                     )}
 
