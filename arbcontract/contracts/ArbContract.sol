@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+interface IOracle {
+    function createLlmCall(
+        uint promptId
+    ) external returns (uint);
+}
+
 contract ArbContract {
     enum Ruling {
         None,
@@ -35,6 +41,11 @@ contract ArbContract {
     // metadata
     Metadata private metadata;
 
+    modifier onlyOracle() {
+        require(msg.sender == galadrielOracle, "Caller is not oracle");
+        _;
+    }
+
     modifier onlyJudge() {
         require(
             msg.sender == metadata.judge,
@@ -52,6 +63,20 @@ contract ArbContract {
         _;
     }
 
+    struct Message {
+        string role;
+        string content;
+    }
+
+    struct ChatRun {
+        address owner;
+        Message[] messages;
+        uint messagesCount;
+    }
+
+    address private galadrielOracle;
+
+
     // Event to log arbitration completion.
     event CaseClosed(
         address indexed judge,
@@ -67,7 +92,8 @@ contract ArbContract {
         string memory _network,
         address _plaintiff,
         address _defendant,
-        address _judge
+        address _judge,
+        address _galadrielOracle
     ) {
         metadata = Metadata(
             msg.sender,
@@ -83,6 +109,7 @@ contract ArbContract {
             "",
             Ruling.None
         );
+        galadrielOracle = _galadrielOracle;
     }
 
     function submitEvidence(string memory _evidence, string memory _key, string memory _cid) public onlyParties {
@@ -94,6 +121,8 @@ contract ArbContract {
         } else {
             metadata.defendant = Evidence(msg.sender, _evidence, _key, _cid);
         }
+
+
     }
 
     function makeRuling(
@@ -133,17 +162,42 @@ contract ArbContract {
         payable(msg.sender).transfer(amount);
     }
 
-    function setRecommendation() public onlyJudge {
-        // Logic to get recommendation
-        // For simplicity, let's assume recommendation is just logged
-        metadata.recommendation = "Plaintiff should be compensated";
+    string private prompt;
+
+    function onOracleLlmResponse(
+    uint runId,
+    string memory response,
+    string memory /*errorMessage*/
+    ) public onlyOracle {
+        // Logic to handle response
+        // For simplicity, let's assume response is just logged
+        metadata.recommendation = response;
+    }
+
+    function getMessageHistoryContents(uint chatId) public view returns (string[] memory) {
+        // get prompt as single message
+        string[] memory messages = new string[](1);
+        messages[0] = prompt;
+        return messages;
+    }
+
+    function getMessageHistoryRoles(uint chatId) public view returns (string[] memory) {
+        // get prompt as single message
+        string[] memory roles = new string[](1);
+        roles[0] = "user";
+        return roles;
+    }
+
+    function getRecommendation(string memory _prompt) private {
+        prompt = _prompt;
+        IOracle(galadrielOracle).createLlmCall(1);
     }
 
     // get metadata
-    function getMetadata() public returns (Metadata memory) {
-        // if judge
-        if (msg.sender == metadata.judge) {
-            setRecommendation();
+    function getMetadata(string memory _prompt) public returns (Metadata memory) {
+        // if judge and prompt is non empty
+        if (msg.sender == metadata.judge && bytes(_prompt).length > 0) {
+            getRecommendation(_prompt);
         }
         return metadata;
     }

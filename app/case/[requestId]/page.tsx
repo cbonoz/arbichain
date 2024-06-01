@@ -11,6 +11,7 @@ import { useEthersSigner } from '@/lib/get-signer'
 import { ContractMetadata, Ruling } from '@/lib/types'
 import {
     abbreviate,
+    createLlmPrompt,
     formatCurrency,
     formatDate,
     getExplorerUrl,
@@ -74,7 +75,7 @@ export default function ManageCase({ params }: { params: Params }) {
     const chainName = 'fuji' // currentChain?.name || 'ethereum'
     // console.log('chainName', chainName)
 
-    async function fetchData() {
+    async function fetchData(prompt?: string) {
         setLoading(true)
         try {
             const publicClient = createPublicClient({
@@ -86,6 +87,7 @@ export default function ManageCase({ params }: { params: Params }) {
                     abi: ARB_CONTRACT.abi,
                     address: requestId,
                     functionName: 'getMetadata',
+                    args: [prompt || ''],
                 })) as ContractMetadata
             )
             // convert balance and validatedAt to number from bigint
@@ -537,6 +539,27 @@ export default function ManageCase({ params }: { params: Params }) {
                                         <Label>Split</Label>
                                     </div>
                                 </RadioGroup>
+
+                                {isJudge && (
+                                    <div>
+                                        <Button
+                                            onClick={() => {
+                                                fetchData(
+                                                    createLlmPrompt(
+                                                        data?.name,
+                                                        data?.description,
+                                                        data?.plaintiff
+                                                            .statement,
+                                                        data?.defendant
+                                                            .statement
+                                                    )
+                                                )
+                                            }}
+                                        >
+                                            Get AI Recommendation
+                                        </Button>
+                                    </div>
+                                )}
 
                                 {data.recommendation && (
                                     <div>

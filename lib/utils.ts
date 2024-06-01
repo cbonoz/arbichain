@@ -108,3 +108,12 @@ export function capitalize(s: string) {
 export const getIpfsUrl = (cid: string) => {
     return `https://gateway.lighthouse.storage/ipfs/${cid}`
 }
+
+export const createLlmPrompt = (
+    name: string,
+    description: string,
+    defendantStatement: string,
+    plaintiffStatement: string
+) => {
+    return `This is a dispute resolution case between two parties called ${name}. ${description}. The defendant has provided the following statement or hasn't responded yet if blank: ${defendantStatement}. The plaintiff has provided the following statement or hasn't responded yet if blank: ${plaintiffStatement}. You have to make a ruling on this case. Who wins and why?`
+}
