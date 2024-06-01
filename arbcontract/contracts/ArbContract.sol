@@ -181,24 +181,20 @@ contract ArbContract {
         return messages;
     }
 
-    function getMessageHistoryRoles(uint chatId) public view returns (string[] memory) {
+    function getMessageHistoryRoles(uint chatId) public pure returns (string[] memory) {
         // get prompt as single message
         string[] memory roles = new string[](1);
         roles[0] = "user";
         return roles;
     }
 
-    function getRecommendation(string memory _prompt) private {
+    function getRecommendation(string memory _prompt) public onlyJudge {
         prompt = _prompt;
         IOracle(galadrielOracle).createLlmCall(1);
     }
 
     // get metadata
-    function getMetadata(string memory _prompt) public returns (Metadata memory) {
-        // if judge and prompt is non empty
-        if (msg.sender == metadata.judge && bytes(_prompt).length > 0) {
-            getRecommendation(_prompt);
-        }
+    function getMetadata() public view returns (Metadata memory) {
         return metadata;
     }
 }

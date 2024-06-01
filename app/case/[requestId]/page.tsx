@@ -1,6 +1,6 @@
 'use client'
 
-import { config } from '@/app/config'
+import { config, galadrielDevnet } from '@/app/config'
 import BasicCard from '@/components/basic-card'
 import { RenderEvidence } from '@/components/render-evidence'
 import RenderObject from '@/components/render-object'
@@ -75,7 +75,7 @@ export default function ManageCase({ params }: { params: Params }) {
     const chainName = 'fuji' // currentChain?.name || 'ethereum'
     // console.log('chainName', chainName)
 
-    async function fetchData(prompt?: string) {
+    async function fetchData() {
         setLoading(true)
         try {
             const publicClient = createPublicClient({
@@ -87,7 +87,6 @@ export default function ManageCase({ params }: { params: Params }) {
                     abi: ARB_CONTRACT.abi,
                     address: requestId,
                     functionName: 'getMetadata',
-                    args: [prompt || ''],
                 })) as ContractMetadata
             )
             // convert balance and validatedAt to number from bigint
@@ -120,7 +119,6 @@ export default function ManageCase({ params }: { params: Params }) {
                     console.log('decrypted defendant', decrypted)
                     contractData.defendant.statement = decrypted
                 }
-                await getRecommendation()
                 setData(contractData)
             }
         } catch (error) {
@@ -131,7 +129,7 @@ export default function ManageCase({ params }: { params: Params }) {
         }
     }
 
-    async function getRecommendation() {
+    async function getRecommendation(prompt: string) {
         // setRecommendation('Defendant should win')
     }
 
@@ -539,12 +537,12 @@ export default function ManageCase({ params }: { params: Params }) {
                                         <Label>Split</Label>
                                     </div>
                                 </RadioGroup>
-
-                                {isJudge && (
+                                {/* TODO: add chainlink call */}
+                                {isJudge && chainId === galadrielDevnet.id && (
                                     <div>
                                         <Button
                                             onClick={() => {
-                                                fetchData(
+                                                getRecommendation(
                                                     createLlmPrompt(
                                                         data?.name,
                                                         data?.description,
