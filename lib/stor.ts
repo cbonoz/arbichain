@@ -1,5 +1,5 @@
 import { upload, uploadBuffer } from '@lighthouse-web3/sdk'
-import { assertTrue } from './utils'
+import { assertTrue, isEmpty } from './utils'
 
 const LIGHTHOUSE_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE as string
 
@@ -16,6 +16,7 @@ export const uploadFile = async (files: any[]) => {
     assertTrue(files.length === 1, 'Only one file allowed')
     const file = files[0]
     assertTrue(file.size < 1000000, 'File size must be less than 1mb')
+    assertTrue(!isEmpty(LIGHTHOUSE_KEY), 'No Lighthouse key found')
 
     // const output = await uploadBuffer(data, LIGHTHOUSE_KEY)
     const output = await upload(

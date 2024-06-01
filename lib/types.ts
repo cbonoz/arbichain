@@ -21,12 +21,11 @@ export interface RequestData {
 //     uint256 compensation;
 // }
 
-
-
 export interface Evidence {
-    user: string;
-    cid: string;
-    statement: string;
+    user: string
+    cid: string
+    statement: string
+    encryptionKey: string
 }
 
 export interface ContractMetadata {
@@ -37,16 +36,15 @@ export interface ContractMetadata {
     description: string
     plaintiff: Evidence
     defendant: Evidence
-    ruling: Ruling;
+    ruling: Ruling
     judge: string
     closedAt: number
     compensation: number
     recommendation: string
 }
 
-
 export enum Ruling {
     PlaintiffWins,
     DefendantWins,
-    None
+    None,
 }

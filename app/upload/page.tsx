@@ -1,6 +1,6 @@
 import BasicCard from '@/components/basic-card'
 import UploadForm from '@/components/request-upload-form'
-import { config } from '@/util/site-config'
+import { siteConfig } from '@/util/site-config'
 
 const Upload = () => {
     return (
@@ -10,7 +10,7 @@ const Upload = () => {
             <BasicCard
                 className="w-[600px] p-4"
                 title="Create new case"
-                description="Create a arbitration case. This case will become available as a url for involved parties (based on addresses) to submit statements."
+                description={siteConfig.createPrompt}
             >
                 <UploadForm />
             </BasicCard>
@@ -21,7 +21,7 @@ const Upload = () => {
                     title="Steps"
                     description=""
                 >
-                    {config.steps.map((step, index) => (
+                    {siteConfig.steps.map((step, index) => (
                         <div key={index} className="mb-4">
                             <h3 className="text-lg font-bold">
                                 {index + 1}. {step.title}

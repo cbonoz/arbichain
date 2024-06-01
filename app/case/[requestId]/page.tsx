@@ -25,6 +25,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Address, Chain, createPublicClient, http } from 'viem'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { uploadFile } from '@/lib/stor'
 
 import {
     useAccount,
@@ -34,6 +35,15 @@ import {
     useWriteContract,
 } from 'wagmi'
 import { Separator } from '@radix-ui/react-select'
+import { upload } from '@lighthouse-web3/sdk'
+import { LitClient } from '@/lib/lit'
+import {
+    FormControl,
+    FormDescription,
+    FormItem,
+    FormLabel,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 
 interface Params {
     requestId: Address
@@ -61,7 +71,8 @@ export default function ManageCase({ params }: { params: Params }) {
         (c) => c.id === chainId
     )
 
-    const signer = useEthersSigner({ chainId })
+    const chainName = 'fuji' // currentChain?.name || 'ethereum'
+    // console.log('chainName', chainName)
 
     async function fetchData() {
         setLoading(true)
@@ -78,11 +89,37 @@ export default function ManageCase({ params }: { params: Params }) {
                 })) as ContractMetadata
             )
             // convert balance and validatedAt to number from bigint
-            console.log('contractData', contractData)
-            setData(contractData)
+            console.log('contractData', contractData, chainName)
 
             if (contractData.judge === address) {
+                // decrypt data
+                const lit = new LitClient(chainName)
+                if (contractData.plaintiff.statement) {
+                    const {
+                        statement: encryptedString,
+                        encryptionKey: encryptedSymmetricKey,
+                    } = contractData.plaintiff
+                    const decrypted = await lit.decrypt(
+                        encryptedString,
+                        encryptedSymmetricKey
+                    )
+                    console.log('decrypted plaintiff', decrypted)
+                    contractData.plaintiff.statement = decrypted
+                }
+                if (contractData.defendant.statement) {
+                    const {
+                        statement: encryptedString,
+                        encryptionKey: encryptedSymmetricKey,
+                    } = contractData.defendant
+                    const decrypted = await lit.decrypt(
+                        encryptedString,
+                        encryptedSymmetricKey
+                    )
+                    console.log('decrypted defendant', decrypted)
+                    contractData.defendant.statement = decrypted
+                }
                 await getRecommendation()
+                setData(contractData)
             }
         } catch (error) {
             console.log('error reading contract', error)
@@ -97,25 +134,39 @@ export default function ManageCase({ params }: { params: Params }) {
     }
 
     async function provideEvidence() {
-        if (!statement) {
-            throw new Error('Please provide a statement')
-        }
+        // log chain
+        console.log('currentChain', currentChain)
 
         setCaseLoading(true)
         try {
+            if (!statement) {
+                throw new Error('Please provide a statement')
+            }
+
+            if (!currentChain) {
+                throw new Error('Please connect to a chain')
+            }
+            const lit = new LitClient(chainName) //currentChain?.name)
+            const { ciphertext, dataToEncryptHash } =
+                await lit.encrypt(statement)
+            console.log('encryptedString', ciphertext, dataToEncryptHash)
+
             // const attestation = { attestationId: '1234' }
             // await switchChain({ chainId })
             let cid = ''
             // upload
+            if (file) {
+                cid = await uploadFile([file])
+            }
 
             const res = await writeContract(config, {
                 abi: ARB_CONTRACT.abi,
                 address: requestId,
                 functionName: 'submitEvidence',
-                args: [statement, cid],
+                args: [ciphertext, dataToEncryptHash, cid],
             })
 
-            console.log('submit evidence')
+            console.log('submit evidence', res)
             await fetchData()
             alert(
                 'Evidence submitted! Please wait a few moments for the blockchain to update and refresh the page.'
@@ -218,11 +269,7 @@ export default function ManageCase({ params }: { params: Params }) {
     return (
         // center align
         <div className="flex flex-col items-center justify-center mt-8">
-            <BasicCard
-                title={getTitle()}
-                // description="Find and verify a arbitration case using your wallet."
-                className="max-w-[1000px] p-4"
-            >
+            <BasicCard title={getTitle()} className="max-w-[1000px] p-4">
                 {invalid && (
                     <div>
                         <p>
@@ -419,6 +466,20 @@ export default function ManageCase({ params }: { params: Params }) {
                                     }}
                                     rows={5}
                                 />
+                                <div>
+                                    <label className="my-2">
+                                        Optional attachment to include with your
+                                        statement:
+                                    </label>
+                                    <Input
+                                        type="file"
+                                        onChange={(e) => {
+                                            if (e.target.files?.length) {
+                                                setFile(e.target.files[0])
+                                            }
+                                        }}
+                                    />
+                                </div>
 
                                 <Button
                                     onClick={() => {
@@ -450,12 +511,6 @@ export default function ManageCase({ params }: { params: Params }) {
                                 <div className="text-xl font-bold mt-8">
                                     Select Ruling
                                 </div>
-                                {!allFeedbackSubmitted && (
-                                    <div className="text-red-500 mb-2">
-                                        Warning: Not all statements have been
-                                        submitted yet.
-                                    </div>
-                                )}
 
                                 <RadioGroup
                                     value={ruling + ''}
@@ -490,9 +545,14 @@ export default function ManageCase({ params }: { params: Params }) {
                                     </div>
                                 )}
 
-                                {/* {Ruling[ruling]} */}
-
                                 <Separator />
+                                {/* {Ruling[ruling]} */}
+                                {!allFeedbackSubmitted && (
+                                    <div className="text-red-500 mb-2">
+                                        Warning: Not all statements have been
+                                        submitted yet.
+                                    </div>
+                                )}
                                 <div className="mt-4">
                                     <Button
                                         onClick={() => {

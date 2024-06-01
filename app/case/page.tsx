@@ -14,7 +14,7 @@ const Lookup = () => {
         <div className="flex flex-row items-center justify-center mt-8">
             <BasicCard
                 title="Find case"
-                description="Update an arbitration case using your wallet."
+                description="Find an existing arbitration case using a known case address."
                 className="min-w-[400px] p-4"
             >
                 <Input

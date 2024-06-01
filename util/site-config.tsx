@@ -1,5 +1,6 @@
-export const config = {
+export const siteConfig = {
     title: 'Arbichain',
+    isLocal: process.env.NEXT_PUBLIC_ENV === 'development',
     description:
         'Smart contract assisted financial dispute arbitration using on-chain AI',
     about: [
@@ -24,6 +25,8 @@ export const config = {
                 'Note Arbichain is currently a free proof of concept prototype and is provided as-is without any guarantees. Use at your own risk/descretion.',
         },
     ],
+    createPrompt:
+        'Create a new arbitration case. This case will become available as a url for involved parties (based on addresses) to submit statements. Three parties are required: plaintiff, defendant, and judge. the judge is the current deployer of the contract and will be the final arbiter of the case.',
     steps: [
         {
             title: 'Create',
@@ -33,12 +36,12 @@ export const config = {
         {
             title: 'Present',
             description:
-                'Share the case url with the parties involved. Each side presents secured evidence and material to support their position.',
+                'Share the case url with the defendant and the plaintiff. Each side presents evidence to support their position and is saved encrypted to the contract.',
         },
         {
             title: 'Decide',
             description:
-                'The current deployer acting as the judge lastly reviews the evidence and makes a final ruling on the case. The ruling is executed by the smart contract with a verdict contract event emitted.',
+                'The judge reviews the evidence and makes a final ruling on the case. The ruling is saved immutably to the contract and emitted as a smart contract event.',
         },
     ],
     isLocal: process.env.NEXT_PUBLIC_ENV === 'development',

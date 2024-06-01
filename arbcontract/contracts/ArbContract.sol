@@ -11,6 +11,7 @@ contract ArbContract {
     struct Evidence {
         address user;
         string statement;
+        string encryptionKey;
         string cid;
     }
 
@@ -74,8 +75,8 @@ contract ArbContract {
             block.timestamp,
             _name,
             _description,
-            Evidence(_plaintiff, "", ""),
-            Evidence(_defendant, "", ""),
+            Evidence(_plaintiff, "", "", ""),
+            Evidence(_defendant, "", "", ""),
             _judge,
             0,
             0,
@@ -84,14 +85,14 @@ contract ArbContract {
         );
     }
 
-    function submitEvidence(string memory _evidence, string memory _cid) public onlyParties {
+    function submitEvidence(string memory _evidence, string memory _key, string memory _cid) public onlyParties {
         // Logic to submit evidence
         // For simplicity, let's assume evidence is just logged
         emit EvidenceSubmitted(msg.sender, _evidence);
         if (msg.sender == metadata.plaintiff.user) {
-            metadata.plaintiff = Evidence(msg.sender, _evidence, _cid);
+            metadata.plaintiff = Evidence(msg.sender, _evidence, _key, _cid);
         } else {
-            metadata.defendant = Evidence(msg.sender, _evidence, _cid);
+            metadata.defendant = Evidence(msg.sender, _evidence, _key, _cid);
         }
     }
 
