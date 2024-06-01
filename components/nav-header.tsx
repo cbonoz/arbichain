@@ -22,7 +22,7 @@ const NavHeader = () => {
                     Create case
                 </a>
                 |
-                <a href="/case" className="text-gray-500 hover:underline mx-4">
+                <a href="/lookup" className="text-gray-500 hover:underline mx-4">
                     Case lookup
                 </a>
                 |

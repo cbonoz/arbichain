@@ -117,5 +117,6 @@ export const createLlmPrompt = (
 ) => {
     const defendantString = defendantStatement ? `The defendant has provided the following statement: ${defendantStatement}.` : ''
     const plaintiffString = plaintiffStatement ? `The plaintiff has provided the following statement: ${plaintiffStatement}.` : ''
-    return `This is a dispute resolution case between two parties called ${name}. ${description}. ${defendantString} ${plaintiffString} You have to make a ruling on this case. Who wins and why?`
+    const wordLimit = 200;
+    return `This is a dispute resolution case between two parties called ${name}. ${description}. ${defendantString} ${plaintiffString} You have to make a ruling on this case. Who wins and why? Limit response to ${wordLimit} words.`
 }

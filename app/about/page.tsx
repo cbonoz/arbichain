@@ -1,19 +1,7 @@
-'use client'
-
 import BasicCard from '@/components/basic-card'
-import RenderObject from '@/components/render-object'
-import { Button } from '@/components/ui/button'
-import { useEthersSigner } from '@/lib/get-signer'
 import { siteConfig } from '@/util/site-config'
-import { ReloadIcon } from '@radix-ui/react-icons'
-import { useState } from 'react'
-import { set } from 'react-hook-form'
 
 const About = () => {
-    const [loading, setLoading] = useState(false)
-    const [result, setResult] = useState<any>(null)
-
-    const signer = useEthersSigner()
 
     return (
         <div className="flex flex-col items-center justify-center mt-8">
@@ -29,11 +17,6 @@ const About = () => {
                     </div>
                 ))}
 
-                {result && (
-                    <div className="my-2">
-                        <RenderObject title="Result" obj={result} />
-                    </div>
-                )}
             </BasicCard>
         </div>
     )

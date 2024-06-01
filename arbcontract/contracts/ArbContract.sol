@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.9;
 
 interface IOracle {
     function createLlmCall(
@@ -7,7 +7,14 @@ interface IOracle {
     ) external returns (uint);
 }
 
+import "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
+import "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.sol";
+import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
+
 contract ArbContract {
+    VRFCoordinatorV2Interface COORDINATOR;
+    LinkTokenInterface LINKTOKEN;
+
     enum Ruling {
         None,
         PlaintiffWins,
@@ -75,6 +82,14 @@ contract ArbContract {
     }
 
     address private galadrielOracle;
+
+    // fuji
+    uint64 s_subscriptionId = 8867;
+    address vrfCoordinator = 0x2eD832Ba664535e5886b75D64C46EB9a228C2610;
+    bytes32 s_keyHash = 0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61;
+    uint32 callbackGasLimit = 2500000;
+    uint16 requestConfirmations = 3;
+    uint32 numWords =  1;
 
 
     // Event to log arbitration completion.

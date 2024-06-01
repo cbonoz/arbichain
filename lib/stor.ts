@@ -3,6 +3,7 @@ import { assertTrue, isEmpty } from './utils'
 
 const LIGHTHOUSE_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE as string
 
+
 const progressCallback = (progressData: any) => {
     let percentageDone =
         100 -

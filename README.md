@@ -42,10 +42,9 @@ Every arbitration use gets its own smart contract.
 ### Technologies used
 
 <!-- https://ethglobal.com/events/hackfs2024/prizes-->
-Filecoin: Storage of assets shared during the deliberation process. Involved parties can upload evidence as a document and these are made available to the judge at the time of case determination. Filecoin entries are dynamically linked to the smart contract and only returned to the parties when the case is accessed. Lighthouse is used for both secure uploads and as a gateway for fetching the secured assets for each case created on the app.
+Filecoin: Storage of assets shared during the deliberation process. Involved parties can upload evidence as a document and these are made available to the judge at the time of case determination. Filecoin entries are dynamically linked to the smart contract and only returned to the parties when the case is accessed. Lighthouse is used for both secure uploads and as a gateway for fetching the secured assets for each case created on the app. 
 
 Lit Protocol: Security of the uploads and data on chain. Involved parties sign their statements and evidence using the Lit message encrypt action before submitting to the network/contract. Each statement is encrypted using the metamask or signing wallet before being persisted on the network. The judge is the only party that decrypts the messages before having them displayed in the UI when the case is being decided.
-
 
 Galadriel: L1 AI Smart contract network. Arbichain uses Galadriel smart contracts to provide an AI-assisted assessment of the case by merging the case description with the statements from the involved parties. Before making the final decision, the judge can review the on-chain LLM recommendation for the case saved to the contract.
 
@@ -53,7 +52,7 @@ Chainlink:
 * Programmatic management of subscriptions: Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
 * Chainlink Function call: Prior to closing, a chainlink function call is made that analyzes both the plaintiff's and defendant's response and saves it to the contract state. This result is shown to the judge during determination.
 
-Huddle01: Video evidence.
+Huddle01: Video meeting between participants. Huddle can be used by the judge to initiate a closing session and invite the participants.
 
 ### Example case
 
@@ -96,6 +95,10 @@ The app should now be running on port 3000.
 3. Copy contents (includes ABI) to `metadata.tsx#ARB_CONTRACT`
 
 4. Rebuild web project
+
+### Deployment
+
+Vercel CICD or hosting provider of choice.
 
 
 ### Useful links
