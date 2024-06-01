@@ -17,13 +17,9 @@ Live Demo url: arbichainbeta.vercel.app
 
 Traditional arbitration can be plagued by lengthy proceedings, cumbersome paperwork, and limited accessibility, leaving many individuals and businesses feeling disillusioned with the legal system. The opacity of the decision-making process and enforcement challenges can also erode trust in the fairness and integrity of traditional arbitration outcomes.
 
-By using the immutability of blockchain technology and artificial intelligence, we aim to address these common shortcomings of the current arbitration process. Through the use of smart contracts, we ensure that agreements are tamper-proof and automatically executed, eliminating the need for intermediaries and streamlining the resolution process.
-
 Arbichain provides a transparent and decentralized environment where evidence is securely stored on the blockchain, accessible to all parties involved. AI algorithms assist arbitrators in analyzing evidence objectively and making informed decisions, promoting fairness and impartiality in dispute resolution.
 
-Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes. Arbichain has a built in AI-advisor that's provided to the judge. Platforms like Kleros (kleros.com) exist, however requires using platform jurors and doesn't have as much flexibility to settle your own disputes without using their justice protocol / fee system.
-
-Smart contracts prevent tampering with provided statements or evidence after they are provided.
+Some arbitration apps may lack access to qualified legal professionals or experts in specific areas of law, limiting the quality and accuracy of legal advice or decisions provided to parties involved in disputes. Arbichain has a built in AI-advisor that's provided to the judge. Platforms like Kleros (kleros.com) exist, however requires using platform jurors and doesn't have as much flexibility to settle your own disputes without using a justice protocol and/or fee system.
 
 ### How it works
 
@@ -37,7 +33,7 @@ Every arbitration use gets its own smart contract.
 4. The smart contract executes the decision, requesting or transferring locked funds or assets as necessary, based on the arbitrator's ruling.
 5. An event gets emitted from the smart contract with the decision with the result visible by all parties.
 
-<!-- Using a smart contracts ultimately prevents tampering with provided statements, evidence, and decision after they are provided with each interaction timestamped and recorded on the contract. -->
+Using a smart contracts ultimately prevents tampering with provided statements, evidence, and decision after they are provided with each interaction timestamped and recorded on the contract.
 
 ### Technologies used
 
@@ -46,13 +42,13 @@ Every arbitration use gets its own smart contract.
 
 2. <b>Lit Protocol</b>: Security of the uploads and data on chain. Involved parties sign their statements and evidence using the Lit message encrypt action before submitting to the network/contract. Each statement is encrypted using the metamask or signing wallet before being persisted on the network. The judge is the only party that decrypts the messages before having them displayed in the UI when the case is being decided. 
 
-3. <b>Galadriel</b>: L1 AI Smart contract network. Arbichain uses Galadriel smart contracts to provide an AI-assisted assessment of the case by merging the case description with the statements from the involved parties. Before making the final decision, the judge can review the on-chain LLM recommendation for the case saved to the contract.
+3. <b>Galadriel</b>: L1 AI Smart contract network. Arbichain uses Galadriel smart contracts to provide an AI-assisted assessment of the case by merging the case description with the statements from the involved parties. Before making the final decision, the judge can review the on-chain LLM recommendation for the case saved to the contract. The AI recommendation is requestable when the judge is ready to review the case and is saved on chain for each unique Arbichain smart contract.
 
-4. <b>Chainlink</b>:
-* Programmatic management of subscriptions: Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
-* Chainlink VRF call: Prior to closing, a chainlink function call is made that generates a random value for both the plaintiff's and defendant's response and saves it to the contract state. This result is shown to the judge during determination. Randomness is used in multiple ways if on a supported network (ex: Fuji):
+4. <b>Chainlink VRF and subscription management</b>: Prior to closing, a Chainlink VRF function call is made that generates a random value for both the plaintiff's and defendant's response and saves it to the contract state. This result is shown to the judge during determination. Randomness is used in multiple ways if on a supported network (ex: Fuji):
 -- Random presentation of evidence to the judge: Ordering can bias analysis, a random value is used to indicate which evidence is presented first
 --  Randomness in deadline. A week + a random number of days is added to each individual's deadline for providing evidence before close.
+
+Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
 
 5. <b>Avalanche Fuji</b>: Alternative network that could be used for deployment that offers high throughput and low latency of confirmation. This is key for confirming asynchronous actions such as those involving external oracle calls (ex: Chainlink) and getting a result quickly. The low costs are also beneficial for enabling participants to submit evidence and statements at low cost. Avalanche provides access to various DeFi tools, and oracles like Chainlink used by Arbichain underneath.
 
@@ -68,19 +64,15 @@ Scroll: Deployment
 <!-- Scroll: Use as infra, no need in demo video -->
 
 
-### Challenges we ran into
-* Integrating chainlink and chainlink LLMs into the decision making process while maintaining a high level of security.
-* Using chainlink function to fufill an AI-based assessment.
-
-
 ### Accomplishments that we're proud of
 * Successfully implementing a fully decentralized arbitration platform using blockchain and smart contracts.
-* Developing AI algorithms that assist arbitrators in making fair and informed decisions.
 * Creating a secure and transparent system for submitting and reviewing evidence in arbitration cases.
-* Building a user-friendly interface that simplifies the arbitration process for all parties involved.
 
 ### Potential future work
-* Enhancing AI algorithms to provide more advanced analysis of evidence and statements, including natural language processing and sentiment analysis.
+* Supporting more networks: Adding networks can attract users from different blockchain ecosystems. Each network has its advantages and user base, so supporting multiple networks can enhance the app's reach and utility.
+* Improving UI flow: Could include redesigning screens, adding tooltips or tutorials, and incorporating user feedback to address pain points and enhance usability.
+* Further chainlink and oracle integrations: Chainlink and other oracle integrations play a pivotal role in providing external data to smart contracts. For example, integrating additional Chainlink Price Feeds can provide real-time asset valuations for mediated settlements. Moreover, integrating with other oracle networks can offer redundancy and ensure data reliability across various sources.
+* Move to mainnet: Transitioning the app from a testnet environment to the Ethereum mainnet or other production-ready blockchain networks marks a significant milestone in its development. Moving to mainnet involves thorough testing, auditing, and ensuring scalability and security measures are in place to support real-world usage. This step opens up opportunities for live transactions, real-value settlements, and wider adoption by users and stakeholders.
 
 ### How to run
 
