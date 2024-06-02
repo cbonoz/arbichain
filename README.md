@@ -108,31 +108,25 @@ The app should now be running on port 3000.
 
 #### Screenshots
 
-## Home
+## Home page
 
 <p>
   <img src="img/home.png" alt="Home" width="600" />
 </p>
 
-## About
+## About page
 
 <p>
   <img src="img/about.png" alt="About" width="600" />
 </p>
 
-## Upload
-
-<p>
-  <img src="img/upload.png" alt="Upload" width="600" />
-</p>
-
-## Create
+## Creating a new case
 
 <p>
   <img src="img/create.png" alt="Create" width="600" />
 </p>
 
-## Created
+## Created case
 
 <p>
   <img src="img/created.png" alt="Created" width="600" />
@@ -156,19 +150,25 @@ The app should now be running on port 3000.
   <img src="img/get_rec.png" alt="Get Recognition" width="600" />
 </p>
 
-## Evidence
+## Evidence submitted
 
 <p>
   <img src="img/evidence.png" alt="Evidence" width="600" />
 </p>
 
-## Contract 1
+## Viewing a document upload
+
+<p>
+  <img src="img/upload.png" alt="Upload" width="600" />
+</p>
+
+## Chainlink Contract snapshot
 
 <p>
   <img src="img/contract1.png" alt="Contract 1" width="600" />
 </p>
 
-## Contract 2
+## Contract snapshot of submitting evidence/case
 
 <p>
   <img src="img/contract2.png" alt="Contract 2" width="600" />
@@ -192,13 +192,13 @@ The app should now be running on port 3000.
   <img src="img/gala_contract.png" alt="Gala Contract" width="600" />
 </p>
 
-## Fleek 1
+## Fleek site config
 
 <p>
   <img src="img/fleek1.png" alt="Fleek 1" width="600" />
 </p>
 
-## Closed
+## Example closed case
 
 <p>
   <img src="img/closed.png" alt="Closed" width="600" />
