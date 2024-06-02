@@ -243,8 +243,8 @@ contract ArbContract is VRFConsumerBaseV2 {
         string memory response,
         string memory /*errorMessage*/
     ) public onlyOracle {
-        // Logic to handle response
-        // For simplicity, let's assume response is just logged
+        // When the AI response is ready from the Oracle LLM call based on case info and provided statements,
+        // save it to the contract metadata. This recommendation gets returned to the client via `getMetadata` and made visible in the UI.
         metadata.recommendation = response;
     }
 
