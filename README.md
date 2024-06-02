@@ -103,10 +103,6 @@ The app should now be running on port 3000.
 
 4. Rebuild web project
 
-### Production build
-
-`yarn build`
-
 #### Screenshots
 
 ## Home page
