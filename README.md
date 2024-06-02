@@ -60,10 +60,11 @@ Example closed contract case: https://testnet.snowtrace.io/address/0x0ad76092124
 <b>Fleek IPFS/IPNS Pinning</b>: Fleek is used to securely pin IPFS uploaded assets for each case. A custom app specific gateway serves any uploaded documents to the arbiter/judge. These assets are backed to Filecoin via the Fleek SDK.
 
 <b>Chainlink VRF and subscription management</b>: Prior to closing, a Chainlink VRF function call is made that generates a random value for both the plaintiff's and defendant's response and saves it to the contract state. This result is shown to the judge during determination. Randomness is used in multiple ways if on a supported network (ex: Fuji):
+-- Randomness in evidence submission and preparation deadlines i.e. enabling different submission timeframes for parties.
 -- Random presentation of evidence to the judge: Ordering can bias analysis, a random value is used to indicate which evidence is presented first
---  Randomness in deadline. A week + a random number of days is added to each individual's deadline for providing evidence before close.
+-- Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
 
-Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
+Funded subscription: https://vrf.chain.link/fuji/111460400570697049739504630512020373539708700110695505033242213289977625247430
 
 <b>Avalanche Fuji</b>: Alternative network that could be used for deployment that offers high throughput and low latency of confirmation. This is key for confirming asynchronous actions such as those involving external oracle calls (ex: Chainlink) and getting a result quickly. The low costs are also beneficial for enabling participants to submit evidence and statements at low cost. Avalanche provides access to various DeFi tools, and oracles like Chainlink used by Arbichain underneath.
 
@@ -212,6 +213,7 @@ View contract and shareable link
 Evidence submit:
 Lit protocol
 Filecoin upload of docs
+Fleek for IPNS pinning
 
 Judge view:
 Chainlink VRF randomness

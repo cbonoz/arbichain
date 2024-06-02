@@ -134,7 +134,7 @@ contract ArbContract is VRFConsumerBaseV2 {
         );
         galadrielOracle = _galadrielOracle;
         if (equalStrings(_network, 'fuji')) {
-            s_subscriptionId = 8867;
+            s_subscriptionId = 1;
             COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
             LINKTOKEN = LinkTokenInterface(link);
             addConsumer(address(this));
