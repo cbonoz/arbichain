@@ -35,8 +35,9 @@ export class LitClient {
             const litChainName = SUPPORTED_LIT_NETWORKS[chainId + ""] as string
             this.chain = litChainName
             this.litNodeClient = null as any
+        } else {
+            throw new Error('Unsupported chain for encrypt/decrypt:' + chainId)
         }
-        throw new Error('Unsupported chain for encrypt/decrypt:' + chainId)
     }
 
     async connect() {
