@@ -23,16 +23,13 @@ import {
     caseUrl,
 } from '@/lib/utils'
 import Link from 'next/link'
-import RenderObject from './render-object'
 import { Textarea } from './ui/textarea'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { uploadFile } from '@/lib/stor'
 import { useAccount, useChainId, useChains } from 'wagmi'
 import { deployContract } from '@/lib/contract/deploy'
-import { config } from '@/app/config'
 import { useEthersSigner } from '@/lib/get-signer'
 import { Chain } from 'viem'
-import { network } from 'hardhat'
 import { siteConfig } from '@/util/site-config'
 
 const formSchema = z.object({
