@@ -39,6 +39,7 @@ export interface ContractMetadata {
     ruling: Ruling
     judge: string
     closedAt: number
+    randomValue: number
     compensation: number
     recommendation: string
 }

@@ -7,7 +7,6 @@ import RenderObject from '@/components/render-object'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ARB_CONTRACT } from '@/lib/contract/metadata'
-import { useEthersSigner } from '@/lib/get-signer'
 import { ContractMetadata, Ruling } from '@/lib/types'
 import {
     abbreviate,
@@ -37,19 +36,10 @@ import {
 import {
     useAccount,
     useChainId,
-    useChains,
     useSwitchChain,
-    useWriteContract,
 } from 'wagmi'
 import { Separator } from '@radix-ui/react-select'
-import { upload } from '@lighthouse-web3/sdk'
 import { LitClient } from '@/lib/lit'
-import {
-    FormControl,
-    FormDescription,
-    FormItem,
-    FormLabel,
-} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { SUPPORTED_LIT_NETWORKS } from '@/lib/constants'
 
@@ -313,6 +303,30 @@ export default function ManageCase({ requestId }: Props) {
         return 'unknown'
     }
 
+    const EvidenceSection = () => {
+        const comp1 = <RenderEvidence user="Plaintiff" data={data?.plaintiff} />
+
+        const comp2 = <RenderEvidence user="Defendant" data={data?.defendant} />
+        // return random order
+
+        const value = data?.randomValue || 0
+        if (value % 2 === 0) {
+            return (
+                <div className="my-1">
+                    {comp2}
+                    {comp1}
+                </div>
+            )
+        }
+
+        return (
+            <div className='my-1'>
+                {comp1}
+                {comp2}
+            </div>
+        )
+    }
+
     const compensation = data?.compensation || 0
 
     return (
@@ -381,18 +395,9 @@ export default function ManageCase({ requestId }: Props) {
                             </div> */}
                             <div className="mb-4">{data?.description}</div>
                             <div className="text-lg font-bold">Evidence</div>
-                            <div className="my-1">
-                                <RenderEvidence
-                                    user="Plaintiff"
-                                    data={data?.plaintiff}
-                                />
-                            </div>
-                            <div className="my-1">
-                                <RenderEvidence
-                                    user="Defendant"
-                                    data={data?.defendant}
-                                />
-                            </div>
+
+                            <EvidenceSection />
+                         
                             <div>
                                 <Label>Judge</Label>
                                 <div>
@@ -556,15 +561,8 @@ export default function ManageCase({ requestId }: Props) {
                                 <div className="text-xl font-bold mt-8">
                                     Statements
                                 </div>
-                                <RenderEvidence
-                                    user="Plaintiff"
-                                    data={data?.plaintiff}
-                                />
 
-                                <RenderEvidence
-                                    user="Defendant"
-                                    data={data?.defendant}
-                                />
+                                <EvidenceSection/>
 
                                 {data.recommendation && (
                                     <div>

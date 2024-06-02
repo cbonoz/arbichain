@@ -21,7 +21,7 @@ export const RenderEvidence = ({ user, data }: Props) => {
     const title = hasStatement ? user : `${user} (no statement provided yet)`
 
     return (
-        <Accordion type="single" collapsible>
+        <Accordion className='my-1' type="single" collapsible>
             <AccordionItem value="item-1" className="max-width-[400px]">
                 <AccordionTrigger>{title}</AccordionTrigger>
                 <AccordionContent>

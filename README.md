@@ -37,10 +37,15 @@ Using a smart contracts ultimately prevents tampering with provided statements, 
 
 ### Examples
 
+#### Galadriel
 Example case url: https://arbichainbeta.vercel.app/case/0x36FBf31c9E4dcE0Af4b917D10a884cDC71Fb5854
 
 Example closed contract case: https://explorer.galadriel.com/address/0x36FBf31c9E4dcE0Af4b917D10a884cDC71Fb5854
 
+#### Avalance Fuji
+Exampel case url: https://arbichainbeta.vercel.app/case/0x0ad760921240F5d6e4dFF7E1d851A5577ea7f55D
+
+Example closed contract case: https://testnet.snowtrace.io/address/0x0ad760921240F5d6e4dFF7E1d851A5577ea7f55D
 ### Technologies used
 
 <!-- https://ethglobal.com/events/hackfs2024/prizes-->
@@ -64,12 +69,7 @@ Whenever a new ArbContract is deployed, a consumer is added authorization the ne
 <!-- Huddle01: Video meeting between participants. Huddle can be used by the judge to initiate a closing session and invite the participants. -->
 
 Arbichain is build on Javascript/NextJS.
-
-### Example case
-
-<!-- (address real world problems) -->
-<!-- Avalanche?: https://docs.google.com/document/d/1XYYRz5dXlRcDCb9jH6eGzClPQ8VBrXre6zM9U8cDBQs/edit -->
-<!-- Scroll: Use as infra, no need in demo video -->
+d
 
 
 ### Accomplishments that we're proud of
