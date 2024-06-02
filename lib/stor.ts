@@ -1,8 +1,5 @@
 import { upload, uploadBuffer } from '@lighthouse-web3/sdk'
 import { assertTrue, isEmpty } from './utils'
-import { fleekSdk } from './fleek'
-import { FLEEK_CLIENT_ID } from './constants'
-import { siteConfig } from '@/util/site-config'
 
 const LIGHTHOUSE_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE as string
 
@@ -19,26 +16,18 @@ export const uploadFile = async (files: any[]) => {
     assertTrue(files.length === 1, 'Only one file allowed')
     const file = files[0]
     assertTrue(file.size < 1000000, 'File size must be less than 1mb')
+    assertTrue(!isEmpty(LIGHTHOUSE_KEY), 'No Lighthouse key found')
 
-    let cid;
-    if (FLEEK_CLIENT_ID && siteConfig.isServer) {
-      // https://docs.fleek.xyz/docs/SDK/ipfs
-      const result: any = await fleekSdk.ipfs().addFromPath(files[0]);
-      console.log('Fleek IPFS result:', result)
-      cid = result.cid;
-    } else {
-      assertTrue(!isEmpty(LIGHTHOUSE_KEY), 'No Lighthouse key found')
-
-      // const output = await uploadBuffer(data, LIGHTHOUSE_KEY)
-      const output = await upload(
-          files,
-          LIGHTHOUSE_KEY,
-          false,
-          undefined,
-          progressCallback
-      )
-      console.log('File Status:', output)
-        /*
+    // const output = await uploadBuffer(data, LIGHTHOUSE_KEY)
+    const output = await upload(
+        files,
+        LIGHTHOUSE_KEY,
+        false,
+        undefined,
+        progressCallback
+    )
+    console.log('File Status:', output)
+    /*
         output:
           data: {
             Name: "filename.txt",
@@ -47,15 +36,5 @@ export const uploadFile = async (files: any[]) => {
           }
         Note: Hash in response is CID.
       */
-      cid = output.data.Hash
-    }
-    try {
-    let record = await fleekSdk.ipns().createRecord();
-    // record = await fleekSdk.ipns().getRecord({ name: record.name });
-    record = await fleekSdk.ipns().publishRecord({ id: record.id, hash: cid });
-    } catch (e) {
-      // Log error
-      console.error('Failed to publish IPNS record:', e);
-    }
-    return cid;
+    return output.data.Hash
 }
