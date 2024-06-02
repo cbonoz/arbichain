@@ -222,4 +222,8 @@ Final verification:
 Galadriel AI 
 Submit
 
+Common scenarios:
+Commercial disputes, employment disputes, consumer disputes, construction disputes, international trade disputes, intellectual property disputes, financial and securities disputes, real estate disputes, sports disputes, maritime disputes, healthcare disputes, family business disputes, insurance disputes, franchise disputes, landlord-tenant disputes, partnership disputes, technology disputes, entertainment industry disputes, environmental disputes, mergers and acquisitions disputes.
+
+
 -->
