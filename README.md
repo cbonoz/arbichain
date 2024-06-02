@@ -70,8 +70,6 @@ Whenever a new ArbContract is deployed, a consumer is added authorization the ne
 <!-- Huddle01: Video meeting between participants. Huddle can be used by the judge to initiate a closing session and invite the participants. -->
 
 Arbichain is build on Javascript/NextJS.
-d
-
 
 ### Accomplishments that we're proud of
 
