@@ -1,6 +1,7 @@
 export const siteConfig = {
     title: 'Arbichain',
     isLocal: process.env.NEXT_PUBLIC_ENV === 'development',
+    isServer: false,
     description:
         'Smart contract assisted financial dispute arbitration using on-chain AI',
     about: [

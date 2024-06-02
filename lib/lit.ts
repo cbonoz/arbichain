@@ -1,6 +1,7 @@
 import * as LitJsSdk from '@lit-protocol/lit-node-client'
 import { checkAndSignAuthMessage } from '@lit-protocol/lit-node-client'
 import { getClient } from '@wagmi/core'
+import { SUPPORTED_LIT_NETWORKS } from './constants'
 
 const getLitClient = async (): Promise<LitJsSdk.LitNodeClient> => {
     const client = new LitJsSdk.LitNodeClient({
@@ -29,9 +30,13 @@ export class LitClient {
     private litNodeClient: LitJsSdk.LitNodeClient
     private chain: string
 
-    constructor(chain: string = 'ethereum') {
-        this.chain = chain
-        this.litNodeClient = null as any
+    constructor(chainId: number) {
+        if (chainId in SUPPORTED_LIT_NETWORKS) {
+            const litChainName = SUPPORTED_LIT_NETWORKS[chainId + ""] as string
+            this.chain = litChainName
+            this.litNodeClient = null as any
+        }
+        throw new Error('Unsupported chain for encrypt/decrypt:' + chainId)
     }
 
     async connect() {

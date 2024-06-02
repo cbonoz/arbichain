@@ -1,7 +1,10 @@
 
-export const FUJI = {
-  linkTokenAddress: '0x0f9f783f2d25304b759678c662d40ff789c8b7f4',
-  functionsRouterAddress: '0x0f9f783f2d25304b759678c662d40ff789c8b7f4',
+// https://developer.litprotocol.com/v2/resources/supportedchains
+export const SUPPORTED_LIT_NETWORKS: any = {
+  534351: 'sepolia',
+  1: 'mainnet',
+  43113: 'fuji',
 }
 
 export const GALADRIEL_ORACLE_TESTNET = '0x4168668812C94a3167FCd41D12014c5498D74d7e'
+export const FLEEK_CLIENT_ID: string = process.env.NEXT_PUBLIC_FLEEK_CLIENT_ID || ''

@@ -793,6 +793,11 @@
   resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-2.1.1.tgz#b9da6a878a371829a0502c9b6c1c143ef6663f4d"
   integrity sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==
 
+"@fleekxyz/sdk@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@fleekxyz/sdk/-/sdk-1.4.2.tgz#2ab1cf219671dcbb8ff379703e2e53e4a4fdc80f"
+  integrity sha512-JJCzIFH/Jpsu4WqYhcH7rsxmuGw4BNFykaXB8Py/ewuYNp1pLh1ucEAGJixZirnn1ajkAcyRyo82gRZU28qHzQ==
+
 "@floating-ui/core@^1.0.0":
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.6.2.tgz#d37f3e0ac1f1c756c7de45db13303a266226851a"

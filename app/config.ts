@@ -36,7 +36,7 @@ export const galadrielDevnet = /*#__PURE__*/ defineChain({
 })
 
 export const config = createConfig({
-    chains: [galadrielDevnet, avalancheFuji, sepolia], //, polygonZkEvmCardona, scrollSepolia, mainnet],
+    chains: [galadrielDevnet, avalancheFuji, scrollSepolia], //, polygonZkEvmCardona, scrollSepolia, mainnet],
     ssr: true,
     storage: createStorage({
         storage: cookieStorage,
@@ -44,9 +44,7 @@ export const config = createConfig({
     transports: {
         // add other chains
         [galadrielDevnet.id]: http(),
-        [sepolia.id]: http(),
         [avalancheFuji.id]: http(),
-        [polygonZkEvmCardona.id]: http(),
         [scrollSepolia.id]: http(),
         [mainnet.id]: http(),
     },

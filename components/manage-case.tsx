@@ -51,6 +51,7 @@ import {
     FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { SUPPORTED_LIT_NETWORKS } from '@/lib/constants'
 
 interface Props {
     requestId: Address
@@ -83,9 +84,6 @@ export default function ManageCase({ requestId }: Props) {
         return <div>Redirecting...</div>
     }
 
-    const chainName = 'fuji' // currentChain?.name || 'ethereum'
-    // console.log('chainName', chainName)
-
     async function fetchData() {
         setLoading(true)
         try {
@@ -101,11 +99,14 @@ export default function ManageCase({ requestId }: Props) {
                 })) as ContractMetadata
             )
             // convert balance and validatedAt to number from bigint
-            console.log('contractData', contractData, chainName)
+            console.log('contractData', contractData)
 
-            if (contractData.judge === address) {
+            if (
+                contractData.judge === address &&
+                !!SUPPORTED_LIT_NETWORKS[chainId]
+            ) {
                 // decrypt data
-                const lit = new LitClient(chainName)
+                const lit = new LitClient(chainId)
                 if (contractData.plaintiff.statement) {
                     const {
                         statement: encryptedString,
@@ -130,8 +131,8 @@ export default function ManageCase({ requestId }: Props) {
                     console.log('decrypted defendant', decrypted)
                     contractData.defendant.statement = decrypted
                 }
-                setData(contractData)
             }
+            setData(contractData)
         } catch (error) {
             console.log('error reading contract', error)
             setError(error)
@@ -154,7 +155,11 @@ export default function ManageCase({ requestId }: Props) {
 
             console.log('get recommendation', prompt, res)
             const transaction = getExplorerUrl(res, currentChain, true)
-            setResult({ transaction, message: 'Success: Recommendation will be available here once confirmed on the network' })
+            setResult({
+                transaction,
+                message:
+                    'Success: Recommendation will be available here once confirmed on the network',
+            })
         } catch (error) {
             console.log('error getting recommendation', error)
             setError(error)
@@ -167,6 +172,7 @@ export default function ManageCase({ requestId }: Props) {
         // log chain
         console.log('currentChain', currentChain)
 
+        setError(null)
         setCaseLoading(true)
         try {
             if (!statement) {
@@ -176,10 +182,20 @@ export default function ManageCase({ requestId }: Props) {
             if (!currentChain) {
                 throw new Error('Please connect to a chain')
             }
-            const lit = new LitClient(chainName) //currentChain?.name)
-            const { ciphertext, dataToEncryptHash } =
-                await lit.encrypt(statement)
-            console.log('encryptedString', ciphertext, dataToEncryptHash)
+
+            let text
+            let textHash
+            if (SUPPORTED_LIT_NETWORKS[chainId]) {
+                const lit = new LitClient(chainId) //currentChain?.name)
+                const { ciphertext, dataToEncryptHash } =
+                    await lit.encrypt(statement)
+                text = ciphertext
+                textHash = dataToEncryptHash
+            } else {
+                text = statement
+                textHash = ''
+            }
+            console.log('provide evidence', text, textHash)
 
             // const attestation = { attestationId: '1234' }
             // await switchChain({ chainId })
@@ -193,7 +209,7 @@ export default function ManageCase({ requestId }: Props) {
                 abi: ARB_CONTRACT.abi,
                 address: requestId,
                 functionName: 'submitEvidence',
-                args: [ciphertext, dataToEncryptHash, cid],
+                args: [text, textHash, cid],
             })
 
             console.log('submit evidence', res)
@@ -266,6 +282,9 @@ export default function ManageCase({ requestId }: Props) {
     const showActioncase = Boolean(authorized && !isClosed)
     const plaintiffSubmitted = data?.plaintiff.statement
     const defendantSubmitted = data?.defendant.statement
+    const isPartyThatNeedsToSubmit =
+        (isPlaintiff && !plaintiffSubmitted) ||
+        (isDefendant && !defendantSubmitted)
     const evidenceSubmitted =
         (isPlaintiff && plaintiffSubmitted) ||
         (isDefendant && defendantSubmitted)
@@ -283,10 +302,10 @@ export default function ManageCase({ requestId }: Props) {
 
     const getUserRole = () => {
         if (address === data?.plaintiff.user) {
-            return 'plaintiff'
+            return 'plaintiff (accuser)'
         }
         if (address === data?.defendant.user) {
-            return 'defendant'
+            return 'defendant (accused)'
         }
         if (address === data?.judge) {
             return 'judge'
@@ -299,6 +318,9 @@ export default function ManageCase({ requestId }: Props) {
     return (
         // center align
         <div className="flex flex-col items-center justify-center mt-8">
+            {authorized && !isClosed && (
+                <p className="text-green-500">Case Open</p>
+            )}
             <BasicCard title={getTitle()} className="max-w-[1000px] p-4">
                 {invalid && (
                     <div>
@@ -354,9 +376,9 @@ export default function ManageCase({ requestId }: Props) {
                         </div>
 
                         <div className="case-summary">
-                            <div className="text-2xl font-bold">
+                            {/* <div className="text-2xl font-bold">
                                 {data?.name}
-                            </div>
+                            </div> */}
                             <div className="mb-4">{data?.description}</div>
                             <div className="text-lg font-bold">Evidence</div>
                             <div className="my-1">
@@ -387,7 +409,7 @@ export default function ManageCase({ requestId }: Props) {
                                     </Link>
                                 </div>
                             </div>
-                            {compensation && (
+                            {!!compensation && (
                                 <div>
                                     <Label>Compensation</Label>
                                     <div>{formatCurrency(compensation)}</div>
@@ -415,28 +437,30 @@ export default function ManageCase({ requestId }: Props) {
                         {data && (
                             <div className="mt-4">
                                 <div className="my-2">
-                                    <div className="font-bold text-2xl mb-4 text-black-500">
+                                    {/* <div className="font-bold text-2xl mb-4 text-black-500">
                                         Hello,
-                                    </div>
-                                    <div className="mb-2">
-                                        You are the {getUserRole()} on this
-                                        case.
-                                    </div>
-                                    <hr />
-                                    <div className="text-2xl font-bold mt-4">
+                                    </div> */}
+
+                                    {/* <div className="text-2xl font-bold mt-4">
                                         {data.name}
-                                    </div>
+                                    </div> */}
                                     <div className="my-4">
                                         {data.description}
                                     </div>
                                     {data.createdAt && (
-                                        <div className="italic">
+                                        <div className="italic my-2">
                                             This case was opened at:&nbsp;
                                             {new Date(
                                                 data.createdAt
                                             ).toLocaleString()}
                                         </div>
                                     )}
+
+                                    <hr />
+                                    <div className="mt-4 text-l font-bold">
+                                        You are the {getUserRole()} on this
+                                        case.
+                                    </div>
 
                                     {isJudge && allFeedbackSubmitted && (
                                         <div>
@@ -488,15 +512,18 @@ export default function ManageCase({ requestId }: Props) {
 
                         {!evidenceSubmitted && (
                             <div className="submit-evidence">
+                                <div className="text-med mt-1">
+                                    Provide statement
+                                </div>
                                 <Textarea
                                     className="my-2"
                                     value={statement}
                                     onChange={(e) => {
                                         setStatement(e.target.value)
                                     }}
-                                    rows={5}
+                                    rows={10}
                                 />
-                                <div>
+                                <div className="my-4">
                                     <label className="my-2">
                                         Optional attachment to include with your
                                         statement:
@@ -524,7 +551,7 @@ export default function ManageCase({ requestId }: Props) {
                             </div>
                         )}
 
-                        {isJudge && !allFeedbackSubmitted && (
+                        {isJudge && !isPartyThatNeedsToSubmit && (
                             <div>
                                 <div className="text-xl font-bold mt-8">
                                     Statements
@@ -542,7 +569,10 @@ export default function ManageCase({ requestId }: Props) {
                                 {data.recommendation && (
                                     <div>
                                         <Accordion type="single" collapsible>
-                                            <AccordionItem value="item-1" className='max-width-[400px]'>
+                                            <AccordionItem
+                                                value="item-1"
+                                                className="max-width-[400px]"
+                                            >
                                                 <AccordionTrigger>
                                                     View AI Recommendation
                                                 </AccordionTrigger>
@@ -554,7 +584,7 @@ export default function ManageCase({ requestId }: Props) {
                                     </div>
                                 )}
 
-                                <div className="text-xl font-bold mt-8">
+                                <div className="text-xl font-bold my-4">
                                     Select Ruling
                                 </div>
 
@@ -589,6 +619,7 @@ export default function ManageCase({ requestId }: Props) {
                                     chainId === galadrielDevnet.id && (
                                         <div className="my-2">
                                             <Button
+                                                variant={'outline'}
                                                 disabled={recLoading}
                                                 onClick={() => {
                                                     getRecommendation(
@@ -612,30 +643,12 @@ export default function ManageCase({ requestId }: Props) {
                                     )}
 
                                 <Separator />
-                                <hr />
+                                <div className="my-2" />
                                 {/* {Ruling[ruling]} */}
                                 {!allFeedbackSubmitted && (
-                                    <div>
-                                        <br />
-                                        <span className="text-red-500 my-2">
-                                            Warning: Not all statements have
-                                            been submitted yet.
-                                        </span>
-                                        &nbsp;
-                                        {!proceed && (
-                                            <span>
-                                                <a
-                                                    className="text-blue-500 hover:underline cursor-pointer"
-                                                    href="#"
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        setProceed(true)
-                                                    }}
-                                                >
-                                                    Continue anyway
-                                                </a>
-                                            </span>
-                                        )}
+                                    <div className="text-red-500 my-4">
+                                        Warning: Not all parties have provided
+                                        statements yet.
                                     </div>
                                 )}
                                 <div className="mt-4">
@@ -650,6 +663,21 @@ export default function ManageCase({ requestId }: Props) {
                                         )}
                                         Decide case
                                     </Button>
+                                    &nbsp;
+                                    {!proceed && (
+                                        <span>
+                                            <a
+                                                className="text-blue-500 hover:underline cursor-pointer"
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    setProceed(true)
+                                                }}
+                                            >
+                                                Continue anyway
+                                            </a>
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         )}
