@@ -50,8 +50,8 @@ export class LitClient {
             await this.connect()
         }
         const chain = this.chain
-        const nonce = Math.floor(Math.random() * 1000000) + ''
-        const authSig = await checkAndSignAuthMessage({ chain, nonce })
+        const nonce = await this.litNodeClient.getLatestBlockhash()
+        const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain, nonce })
 
         const { ciphertext, dataToEncryptHash } = await LitJsSdk.encryptString(
             {
@@ -74,9 +74,9 @@ export class LitClient {
             await this.connect()
         }
         const chain = this.chain
-        const nonce = Math.floor(Math.random() * 1000000) + ''
 
-        const authSig = await checkAndSignAuthMessage({
+        const nonce = await this.litNodeClient.getLatestBlockhash()
+        const authSig = await LitJsSdk.checkAndSignAuthMessage({
             chain,
             nonce,
         })

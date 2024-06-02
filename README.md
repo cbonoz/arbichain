@@ -107,3 +107,27 @@ The app should now be running on port 3000.
 `yarn build`
 
 #### Screenshots
+
+
+
+<!--
+
+Demo:
+Existing sites
+
+Creation:
+Fuji or Galadriel deployment
+View contract and shareable link
+
+Evidence submit:
+Lit protocol
+Filecoin upload of docs
+
+Judge view:
+Chainlink VRF randomness
+
+Final verification:
+Galadriel AI 
+Submit
+
+-->
