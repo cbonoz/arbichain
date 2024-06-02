@@ -33,11 +33,7 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion'
 
-import {
-    useAccount,
-    useChainId,
-    useSwitchChain,
-} from 'wagmi'
+import { useAccount, useChainId, useSwitchChain } from 'wagmi'
 import { Separator } from '@radix-ui/react-select'
 import { LitClient } from '@/lib/lit'
 import { Input } from '@/components/ui/input'
@@ -155,7 +151,9 @@ export default function ManageCase({ requestId }: Props) {
                 message:
                     'Success: Recommendation will be available here once confirmed on the network',
             })
-            alert('Recommendation requested, you may need to refresh the page to see the result')
+            alert(
+                'Recommendation requested, you may need to refresh the page to see the result'
+            )
         } catch (error) {
             console.log('error getting recommendation', error)
             setError(error)
@@ -254,7 +252,6 @@ export default function ManageCase({ requestId }: Props) {
         }
     }
 
-
     if (loading) {
         return <div>Loading...</div>
     }
@@ -280,7 +277,7 @@ export default function ManageCase({ requestId }: Props) {
         (isPlaintiff && plaintiffSubmitted) ||
         (isDefendant && defendantSubmitted)
     const allFeedbackSubmitted = plaintiffSubmitted && defendantSubmitted
-    const showContinue = (!proceed && !allFeedbackSubmitted)
+    const showContinue = !proceed && !allFeedbackSubmitted
 
     const getTitle = () => {
         if (isClosed) {
@@ -322,7 +319,7 @@ export default function ManageCase({ requestId }: Props) {
         }
 
         return (
-            <div className='my-1'>
+            <div className="my-1">
                 {comp1}
                 {comp2}
             </div>
@@ -349,8 +346,11 @@ export default function ManageCase({ requestId }: Props) {
                 )}
 
                 {!authorized && !isClosed && (
-                    <div>
-                        <p>Not authorized to access this case</p>
+                    <div className="mt-2">
+                        <p>
+                            Not authorized to access this case or you may be on
+                            the wrong network.
+                        </p>
                     </div>
                 )}
 
@@ -399,7 +399,7 @@ export default function ManageCase({ requestId }: Props) {
                             <div className="text-lg font-bold">Evidence</div>
 
                             <EvidenceSection />
-                         
+
                             <div>
                                 <Label>Judge</Label>
                                 <div>
@@ -554,7 +554,7 @@ export default function ManageCase({ requestId }: Props) {
                                     Statements
                                 </div>
 
-                                <EvidenceSection/>
+                                <EvidenceSection />
 
                                 {data.recommendation && (
                                     <div>
@@ -654,7 +654,7 @@ export default function ManageCase({ requestId }: Props) {
                                         Decide case
                                     </Button>
                                     &nbsp;
-                                    {(showContinue) && (
+                                    {showContinue && (
                                         <span>
                                             <a
                                                 className="text-blue-500 hover:underline cursor-pointer"
