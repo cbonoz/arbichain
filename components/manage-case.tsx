@@ -72,7 +72,7 @@ export default function ManageCase({ requestId }: Props) {
         if (address) {
             fetchData()
         }
-    }, [address, fetchData])
+    }, [address])
 
     // if (!requestId) {
     //     router.push('/lookup')
