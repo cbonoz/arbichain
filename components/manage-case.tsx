@@ -155,6 +155,7 @@ export default function ManageCase({ requestId }: Props) {
                 message:
                     'Success: Recommendation will be available here once confirmed on the network',
             })
+            alert('Recommendation requested, you may need to refresh the page to see the result')
         } catch (error) {
             console.log('error getting recommendation', error)
             setError(error)
@@ -279,6 +280,7 @@ export default function ManageCase({ requestId }: Props) {
         (isPlaintiff && plaintiffSubmitted) ||
         (isDefendant && defendantSubmitted)
     const allFeedbackSubmitted = plaintiffSubmitted && defendantSubmitted
+    const showContinue = (!proceed && !allFeedbackSubmitted)
 
     const getTitle = () => {
         if (isClosed) {
@@ -505,7 +507,7 @@ export default function ManageCase({ requestId }: Props) {
                             </div>
                         )}
 
-                        {!evidenceSubmitted && (
+                        {isPartyThatNeedsToSubmit && (
                             <div className="submit-evidence">
                                 <div className="text-med mt-1">
                                     Provide statement
@@ -641,7 +643,7 @@ export default function ManageCase({ requestId }: Props) {
                                 )}
                                 <div className="mt-4">
                                     <Button
-                                        disabled={caseLoading || !proceed}
+                                        disabled={caseLoading || showContinue}
                                         onClick={() => {
                                             closeCase()
                                         }}
@@ -652,7 +654,7 @@ export default function ManageCase({ requestId }: Props) {
                                         Decide case
                                     </Button>
                                     &nbsp;
-                                    {!proceed && (
+                                    {(showContinue) && (
                                         <span>
                                             <a
                                                 className="text-blue-500 hover:underline cursor-pointer"

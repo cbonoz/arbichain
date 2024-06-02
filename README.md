@@ -10,7 +10,7 @@ Going after real world use case category for blockchain/smart contracts.
 
 Live Demo url: https://arbichainbeta.vercel.app
 
-Demo video: 
+Demo video: https://youtu.be/afBL9xaALtk
 
 ### Inspiration
 
