@@ -7,4 +7,3 @@ export const SUPPORTED_LIT_NETWORKS: any = {
 }
 
 export const GALADRIEL_ORACLE_TESTNET = '0x4168668812C94a3167FCd41D12014c5498D74d7e'
-export const FLEEK_CLIENT_ID: string = process.env.NEXT_PUBLIC_FLEEK_CLIENT_ID || ''
