@@ -7,7 +7,6 @@ const NavHeader = () => {
             <div className="flex items-center">
                 <a href="/" className="block">
                     <img
-                    lazy
                         src="/logo.png"
                         alt="Arbichain Logo"
                         className="h-8 w-auto fill-current"
