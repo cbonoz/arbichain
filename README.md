@@ -108,6 +108,101 @@ The app should now be running on port 3000.
 
 #### Screenshots
 
+## Home
+
+<p>
+  <img src="img/home.png" alt="Home" width="600" />
+</p>
+
+## About
+
+<p>
+  <img src="img/about.png" alt="About" width="600" />
+</p>
+
+## Upload
+
+<p>
+  <img src="img/upload.png" alt="Upload" width="600" />
+</p>
+
+## Create
+
+<p>
+  <img src="img/create.png" alt="Create" width="600" />
+</p>
+
+## Created
+
+<p>
+  <img src="img/created.png" alt="Created" width="600" />
+</p>
+
+## Find
+
+<p>
+  <img src="img/find.png" alt="Find" width="600" />
+</p>
+
+## AI Recognition
+
+<p>
+  <img src="img/ai_rec.png" alt="AI Recognition" width="600" />
+</p>
+
+## Get Recognition
+
+<p>
+  <img src="img/get_rec.png" alt="Get Recognition" width="600" />
+</p>
+
+## Evidence
+
+<p>
+  <img src="img/evidence.png" alt="Evidence" width="600" />
+</p>
+
+## Contract 1
+
+<p>
+  <img src="img/contract1.png" alt="Contract 1" width="600" />
+</p>
+
+## Contract 2
+
+<p>
+  <img src="img/contract2.png" alt="Contract 2" width="600" />
+</p>
+
+## Fuji Contract
+
+<p>
+  <img src="img/fuji_contract.png" alt="Fuji Contract" width="600" />
+</p>
+
+## Fuji Evidence
+
+<p>
+  <img src="img/fuji_evidence.png" alt="Fuji Evidence" width="600" />
+</p>
+
+## Gala Contract
+
+<p>
+  <img src="img/gala_contract.png" alt="Gala Contract" width="600" />
+</p>
+
+## Fleek 1
+
+<p>
+  <img src="img/fleek1.png" alt="Fleek 1" width="600" />
+</p>
+
+## Closed
+
+<p>
+  <img src="img/closed.png" alt="Closed" width="600" />
+</p>
 
 
 <!--
