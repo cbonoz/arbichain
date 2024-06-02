@@ -67,7 +67,7 @@ function UploadForm() {
         form.setValue('title', 'Condo damage dispute between Sarah and John')
         form.setValue('description', getPlaceholderDescription())
         form.setValue('plaintiff', currentAddress)
-        form.setValue('defendant', '0xaab58c7fD4246C8F5cA950f25De5Cd6Df5F56624')
+        form.setValue('defendant', '0xFc62E94af9aBd25a1D7abfe00F7034Cf154BbBD9')
         form.setValue('judge', currentAddress)
         form.setValue('file', '')
     }

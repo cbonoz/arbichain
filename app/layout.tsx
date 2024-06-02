@@ -20,6 +20,9 @@ export default function RootLayout({
 
     return (
         <html lang="en">
+               <Head>
+        <title>Arbichain | Smart contract mediated arbitration</title>
+      </Head>
             <Script async src="https://saturn.tech/widget.js" />
             <Providers initialState={initialState}>
                 <body className={inter.className}>
