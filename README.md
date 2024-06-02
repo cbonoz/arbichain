@@ -37,7 +37,7 @@ Using a smart contracts ultimately prevents tampering with provided statements, 
 
 ### Examples
 
-Example case url: htts://arbichainbeta.vercel.app/case/0x36FBf31c9E4dcE0Af4b917D10a884cDC71Fb5854
+Example case url: https://arbichainbeta.vercel.app/case/0x36FBf31c9E4dcE0Af4b917D10a884cDC71Fb5854
 
 Example closed contract case: https://explorer.galadriel.com/address/0x36FBf31c9E4dcE0Af4b917D10a884cDC71Fb5854
 
