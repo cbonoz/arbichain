@@ -58,7 +58,6 @@ export default function ManageCase({ requestId }: Props) {
     const [ruling, setRuling] = useState<Ruling>(Ruling.DefendantWins)
     const [file, setFile] = useState<File | null>(null)
     const [proceed, setProceed] = useState(false)
-    const ref = useRef(null)
     const { chains, switchChain } = useSwitchChain()
     const { address } = useAccount()
 
@@ -73,12 +72,12 @@ export default function ManageCase({ requestId }: Props) {
         if (address) {
             fetchData()
         }
-    }, [address])
+    }, [address, fetchData])
 
-    if (!requestId) {
-        router.push('/lookup')
-        return <div>Redirecting...</div>
-    }
+    // if (!requestId) {
+    //     router.push('/lookup')
+    //     return <div>Redirecting...</div>
+    // }
 
     async function fetchData() {
         setLoading(true)
@@ -253,7 +252,6 @@ export default function ManageCase({ requestId }: Props) {
             setCaseLoading(false)
         }
     }
-
 
 
     if (loading) {
@@ -498,16 +496,6 @@ export default function ManageCase({ requestId }: Props) {
                                 </div>
                             </div>
                         )}
-
-                        {/* {data && (
-                            <div className="mt-4">
-                                <RenderObject
-                                    title="Data"
-                                    obj={data}
-                                    keys={RESULT_KEYS}
-                                />
-                            </div>
-                        )} */}
 
                         {evidenceSubmitted && (
                             <div>
