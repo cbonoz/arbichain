@@ -5,7 +5,6 @@ import { FLEEK_CLIENT_ID } from './constants'
 import { siteConfig } from '@/util/site-config'
 
 const LIGHTHOUSE_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE as string
-const isServerSide = false;
 
 const progressCallback = (progressData: any) => {
     let percentageDone =
@@ -13,8 +12,6 @@ const progressCallback = (progressData: any) => {
         ((progressData?.total / progressData?.uploaded) as any)?.toFixed(2)
     console.log(percentageDone)
 }
-
-
 
 // https://docs.lighthouse.storage/lighthouse-1/how-to/upload-data/file
 export const uploadFile = async (files: any[]) => {
