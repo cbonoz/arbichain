@@ -8,16 +8,15 @@ Smart contract managed financial Arbitration with AI-assisted verdicts.
 
 Going after real world use case category for blockchain/smart contracts.
 
-Live Demo url: arbichainbeta.vercel.app
+Live Demo url: https://arbichainbeta.vercel.app
 
-
-<!-- Demo video: -->
+Demo video: 
 
 ### Inspiration
 
-<a href="https://www.wipo.int/amc/en/arbitration/what-is-arb.html" target="_blank">Arbitration primer</a>
-
 Traditional arbitration can be plagued by lengthy proceedings, cumbersome paperwork, and limited accessibility, leaving many individuals and businesses feeling disillusioned with the legal system. The opacity of the decision-making process and enforcement challenges can also erode trust in the fairness and integrity of traditional arbitration outcomes.
+
+<a href="https://www.wipo.int/amc/en/arbitration/what-is-arb.html" target="_blank">Arbitration primer</a>
 
 Arbichain provides a transparent and decentralized environment where evidence is securely stored on the blockchain, accessible to all parties involved. AI algorithms assist arbitrators in analyzing evidence objectively and making informed decisions, promoting fairness and impartiality in dispute resolution.
 
