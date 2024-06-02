@@ -36,7 +36,7 @@ Every arbitration use gets its own smart contract.
 
 Using a smart contracts ultimately prevents tampering with provided statements, evidence, and decision after they are provided with each interaction timestamped and recorded on the contract.
 
-### Examples
+### Example created cases
 
 #### Galadriel
 Example case url: https://arbichainbeta.vercel.app/case/0x36FBf31c9E4dcE0Af4b917D10a884cDC71Fb5854
@@ -47,6 +47,9 @@ Example closed contract case: https://explorer.galadriel.com/address/0x36FBf31c9
 Exampel case url: https://arbichainbeta.vercel.app/case/0x0ad760921240F5d6e4dFF7E1d851A5577ea7f55D
 
 Example closed contract case: https://testnet.snowtrace.io/address/0x0ad760921240F5d6e4dFF7E1d851A5577ea7f55D
+
+Note to view case urls need to be logged in with an account address of the involved parties (i.e. judge, plaintiff address, defendant address).
+
 ### Technologies used
 
 <!-- https://ethglobal.com/events/hackfs2024/prizes-->
@@ -64,7 +67,7 @@ Example closed contract case: https://testnet.snowtrace.io/address/0x0ad76092124
 -- Random presentation of evidence to the judge: Ordering can bias analysis, a random value is used to indicate which evidence is presented first
 -- Whenever a new ArbContract is deployed, a consumer is added authorization the new instance of the contract to initiate API calls.
 
-Funded subscription: https://vrf.chain.link/fuji/111460400570697049739504630512020373539708700110695505033242213289977625247430
+Example funded subscription: https://vrf.chain.link/fuji/111460400570697049739504630512020373539708700110695505033242213289977625247430
 
 <b>Avalanche Fuji</b>: Alternative network that could be used for deployment that offers high throughput and low latency of confirmation. This is key for confirming asynchronous actions such as those involving external oracle calls (ex: Chainlink) and getting a result quickly. The low costs are also beneficial for enabling participants to submit evidence and statements at low cost. Avalanche provides access to various DeFi tools, and oracles like Chainlink used by Arbichain underneath.
 
@@ -79,10 +82,10 @@ Arbichain is build on Javascript/NextJS.
 
 ### Potential future work
 
-* Supporting more networks: Adding networks can attract users from different blockchain ecosystems. Each network has its advantages and user base, so supporting multiple networks can enhance the app's reach and utility. Each network currently defines a distinct app environment and contracts on one network are unique from other networks.
-* Improving UI flow: Could include redesigning screens, adding tooltips or tutorials, and incorporating user feedback to address pain points and enhance usability.
-* Further chainlink and oracle integrations: Chainlink and other oracle integrations play a pivotal role in providing external data to smart contracts. For example, integrating additional Chainlink Price Feeds can provide real-time asset valuations for mediated settlements. Moreover, integrating with other oracle networks can offer redundancy and ensure data reliability across various sources.
-* Move to mainnet: Transitioning the app from a testnet environment to the Ethereum mainnet or other production-ready blockchain networks marks a significant milestone in its development. Moving to mainnet involves thorough testing, auditing, and ensuring scalability and security measures are in place to support real-world usage. This step opens up opportunities for live transactions, real-value settlements, and wider adoption by users and stakeholders.
+1. Supporting more networks: Adding networks can attract users from different blockchain ecosystems. Each network has its advantages and user base, so supporting multiple networks can enhance the app's reach and utility. Each network currently defines a distinct app environment and contracts on one network are unique from other networks.
+2. Improving UI flow: Could include redesigning screens, adding tooltips or tutorials, and incorporating user feedback to address pain points and enhance usability.
+3. Further chainlink and oracle integrations: Chainlink and other oracle integrations play a pivotal role in providing external data to smart contracts. For example, integrating additional Chainlink Price Feeds can provide real-time asset valuations for mediated settlements. Moreover, integrating with other oracle networks can offer redundancy and ensure data reliability across various sources.
+4. Move to mainnet: Moving to mainnet involves thorough testing, auditing, and ensuring scalability and security measures are in place to support real-world usage.
 
 ### How to run
 
