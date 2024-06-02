@@ -69,6 +69,12 @@ export default function ManageCase({ requestId }: Props) {
         (c) => c.id === chainId
     )
 
+    useEffect(() => {
+        if (address) {
+            fetchData()
+        }
+    }, [address])
+
     if (!requestId) {
         router.push('/lookup')
         return <div>Redirecting...</div>
@@ -248,11 +254,7 @@ export default function ManageCase({ requestId }: Props) {
         }
     }
 
-    useEffect(() => {
-        if (address) {
-            fetchData()
-        }
-    }, [address])
+
 
     if (loading) {
         return <div>Loading...</div>
